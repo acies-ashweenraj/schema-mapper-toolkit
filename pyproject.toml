@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "schema-mapper-toolkit"
+version = "1.0.0"
+description = "Schema extraction, profiling, relationship discovery, Groq descriptions, and hybrid schema matching with Qdrant."
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+  "pydantic",
+  "sqlalchemy",
+  "psycopg2-binary",
+  "qdrant-client",
+  "sentence-transformers",
+  "rank-bm25",
+  "numpy",
+  "groq"
+]
+
+[tool.setuptools.packages.find]
+where = ["."]

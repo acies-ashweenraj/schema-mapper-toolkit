@@ -1,0 +1,15 @@
+fastapi
+uvicorn
+pydantic
+sqlalchemy
+psycopg2-binary
+pymysql
+pyodbc
+cx_Oracle
+
+qdrant-client
+sentence-transformers
+rank-bm25
+numpy
+
+groq
