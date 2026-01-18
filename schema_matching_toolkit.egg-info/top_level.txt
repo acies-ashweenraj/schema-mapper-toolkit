@@ -1,1 +1,2 @@
 schema_matching_toolkit
+tests

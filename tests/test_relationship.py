@@ -6,7 +6,7 @@ if __name__ == "__main__":
         db_type="postgres",
         host="localhost",
         port=5432,
-        database="employee",
+        database="GPC",
         username="postgres",
         password="ashween29",
         schema_name="public",
