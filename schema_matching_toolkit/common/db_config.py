@@ -1,66 +1,66 @@
 from dataclasses import dataclass
-from typing import Optional, Dict, Any
+from typing import Optional
+from urllib.parse import quote_plus
 
 
 @dataclass
 class DBConfig:
-    db_type: str                 # postgres | mysql | mssql | sqlite | oracle...
-    host: str = "localhost"
+    """
+    Universal DB config for SQLAlchemy.
+
+    Supported db_type:
+      - postgres / postgresql
+      - mysql
+      - mssql / sqlserver
+      - oracle
+      - sqlite
+    """
+
+    db_type: str
+    host: Optional[str] = None
     port: Optional[int] = None
     database: Optional[str] = None
     username: Optional[str] = None
     password: Optional[str] = None
-    schema_name: str = "public"
+    schema_name: Optional[str] = None
+
+    # sqlite only
+    sqlite_path: Optional[str] = None
+
+    # MSSQL only
+    mssql_driver: str = "ODBC Driver 17 for SQL Server"
 
     def sqlalchemy_url(self) -> str:
-        """
-        Returns SQLAlchemy URL string for multiple DB types.
-        """
-        db = (self.db_type or "").lower().strip()
+        t = (self.db_type or "").lower().strip()
 
-        # sqlite special case
-        if db == "sqlite":
-            # example: database="mydb.sqlite"
-            if not self.database:
-                raise ValueError("SQLite requires database file path in database field")
-            return f"sqlite:///{self.database}"
+        if t in ["postgres", "postgresql"]:
+            return (
+                f"postgresql+psycopg2://{self.username}:{self.password}"
+                f"@{self.host}:{self.port}/{self.database}"
+            )
 
-        # default for network DBs
-        if not self.database:
-            raise ValueError("database is required")
-        if not self.username:
-            raise ValueError("username is required")
-        if self.password is None:
-            raise ValueError("password is required")
-        if not self.host:
-            raise ValueError("host is required")
-        if not self.port:
-            raise ValueError("port is required")
+        if t in ["mysql"]:
+            return (
+                f"mysql+pymysql://{self.username}:{self.password}"
+                f"@{self.host}:{self.port}/{self.database}"
+            )
 
-        # Mapping db_type -> driver
-        # You can extend later
-        if db == "postgres":
-            driver = "postgresql+psycopg2"
-        elif db == "mysql":
-            driver = "mysql+pymysql"
-        elif db in ["mssql", "sqlserver"]:
-            driver = "mssql+pyodbc"
-        elif db == "oracle":
-            driver = "oracle+cx_oracle"
-        else:
-            # allow user to pass full SQLAlchemy dialect
-            driver = db
+        if t in ["mssql", "sqlserver"]:
+            # driver must be URL encoded
+            driver = quote_plus(self.mssql_driver)
+            return (
+                f"mssql+pyodbc://{self.username}:{self.password}"
+                f"@{self.host}:{self.port}/{self.database}?driver={driver}"
+            )
 
-        return f"{driver}://{self.username}:{self.password}@{self.host}:{self.port}/{self.database}"
+        if t in ["oracle"]:
+            return (
+                f"oracle+oracledb://{self.username}:{self.password}"
+                f"@{self.host}:{self.port}/?service_name={self.database}"
+            )
 
-    @classmethod
-    def from_dict(cls, data: Dict[str, Any]) -> "DBConfig":
-        return cls(
-            db_type=data.get("db_type", "postgres"),
-            host=data.get("host", "localhost"),
-            port=data.get("port"),
-            database=data.get("database"),
-            username=data.get("username"),
-            password=data.get("password"),
-            schema_name=data.get("schema_name", "public"),
-        )
+        if t in ["sqlite"]:
+            path = self.sqlite_path or ":memory:"
+            return f"sqlite:///{path}"
+
+        raise ValueError(f"Unsupported db_type: {self.db_type}")

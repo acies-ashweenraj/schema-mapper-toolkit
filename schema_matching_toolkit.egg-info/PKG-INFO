@@ -1,0 +1,17 @@
+Metadata-Version: 2.4
+Name: schema-matching-toolkit
+Version: 0.1.0
+Summary: Schema Matching Toolkit - Module 1 Schema Extractor
+Author: Ashween
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+Requires-Dist: sqlalchemy>=2.0.0
+Requires-Dist: psycopg2-binary>=2.9.0
+
+# Schema Matching Toolkit (Module 1)
+
+This package extracts schema metadata from databases using SQLAlchemy.
+
+## Install (local)
+```bash
+pip install -e .
