@@ -1,0 +1,11 @@
+# Use official Qdrant image
+FROM qdrant/qdrant:latest
+
+# Expose default ports
+# 6333 — REST API
+# 6334 — gRPC API
+EXPOSE 6333
+EXPOSE 6334
+
+# Run Qdrant
+ENTRYPOINT ["/qdrant/qdrant"]
