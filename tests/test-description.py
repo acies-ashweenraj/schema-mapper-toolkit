@@ -2,7 +2,6 @@ from schema_matching_toolkit import DBConfig, GroqConfig, extract_schema, descri
 
 
 def main():
-    # 1) Extract schema
     cfg = DBConfig(
         db_type="postgres",
         host="localhost",
@@ -13,31 +12,32 @@ def main():
         schema_name="public",
     )
 
+    GROQ_API_KEY = ""
+
     schema = extract_schema(cfg)
     print("✅ Extracted schema tables:", schema["table_count"])
 
-    # 2) Groq config (only API key needed)
-    groq_cfg = GroqConfig(
-        api_key=""
-    )
+    groq_cfg = GroqConfig(api_key=GROQ_API_KEY)
 
-    # 3) Generate descriptions
     descriptions = describe_schema_with_groq(schema, groq_cfg)
 
     print("\n✅ Descriptions Generated")
-    print("Tables described:", len(descriptions.get("tables", {})))
-    print("Columns described:", len(descriptions.get("columns", {})))
+    print("Tables described:", len(descriptions.get("tables", [])))
+    print("Columns described:", len(descriptions.get("columns", [])))
 
-    # 4) Print output nicely
     print("\n================ TABLE DESCRIPTIONS ================")
-    for table_name, desc in descriptions.get("tables", {}).items():
-        print(f"\n📌 {table_name}")
-        print(desc)
+
+    # ✅ tables is a list
+    for t in descriptions.get("tables", []):
+        print(f"\nTABLE: {t.get('table_name')}")
+        print("DESC:", t.get("description"))
 
     print("\n================ COLUMN DESCRIPTIONS ================")
-    for col_id, desc in descriptions.get("columns", {}).items():
-        print(f"\n🔹 {col_id}")
-        print(desc)
+
+    # ✅ columns is also a list
+    for c in descriptions.get("columns", []):
+        print(f"\nCOLUMN: {c.get('column_id')}")
+        print("DESC:", c.get("description"))
 
 
 if __name__ == "__main__":

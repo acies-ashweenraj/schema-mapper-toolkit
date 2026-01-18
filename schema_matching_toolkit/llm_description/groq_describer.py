@@ -1,92 +1,110 @@
-from dataclasses import dataclass
-from typing import Dict, Any
+from typing import Dict, Any, List
 import json
-import re
 
 from groq import Groq
+from schema_matching_toolkit.common.db_config import GroqConfig
 
 
-DEFAULT_GROQ_MODEL = "llama-3.3-70b-versatile"
-
-
-@dataclass
-class GroqConfig:
-    api_key: str
-
-
-def _safe_json_parse(text: str) -> Dict[str, Any]:
+def _schema_to_prompt(schema: Dict[str, Any]) -> str:
     """
-    Groq sometimes returns markdown or extra text.
-    This extracts JSON safely.
+    Convert extracted schema into a compact text prompt.
     """
-    text = (text or "").strip()
+    lines = []
+    for t in schema.get("tables", []):
+        table_name = t.get("table_name") or t.get("table") or t.get("name")
+        if not table_name:
+            continue
 
-    # direct parse
-    try:
-        return json.loads(text)
-    except Exception:
-        pass
+        lines.append(f"TABLE: {table_name}")
+        for c in t.get("columns", []):
+            col_name = c.get("column_name") or c.get("name") or c.get("column")
+            dtype = c.get("data_type") or ""
+            if col_name:
+                lines.append(f"  - {col_name} ({dtype})")
 
-    # extract JSON object {...}
-    m = re.search(r"\{.*\}", text, re.DOTALL)
-    if m:
-        return json.loads(m.group(0))
-
-    raise ValueError("Groq output was not valid JSON")
+    return "\n".join(lines)
 
 
-def describe_schema_with_groq(schema_data: Dict[str, Any], groq_cfg: GroqConfig) -> Dict[str, Any]:
+def describe_schema_with_groq(
+    schema: Dict[str, Any],
+    groq_cfg: GroqConfig,
+) -> Dict[str, Any]:
     """
-    INPUT:
-      schema_data = output from extract_schema()
+    Input:
+      schema: output of extract_schema()
+      groq_cfg: GroqConfig(api_key="...")
 
-    OUTPUT:
+    Output:
       {
-        "schema_name": "...",
-        "tables": {
-            "table_name": "table description"
-        },
-        "columns": {
-            "table.column": "column description"
-        }
+        "tables": [{"table_name": "...", "description": "..."}],
+        "columns": [{"column_id": "table.col", "description": "..."}]
       }
     """
 
     client = Groq(api_key=groq_cfg.api_key)
 
-    prompt = f"""
-You are a database metadata expert.
+    schema_text = _schema_to_prompt(schema)
 
-Given this database schema JSON, generate:
-1) Description for each table
-2) Description for each column
+    system_prompt = """
+You are a metadata expert.
+Generate business-friendly descriptions for database tables and columns.
 
-Return ONLY valid JSON (no markdown, no extra text) in this exact format:
+Return ONLY valid JSON in this format:
 
-{{
-  "tables": {{
-    "table_name": "table description"
-  }},
-  "columns": {{
-    "table.column": "column description"
-  }}
-}}
+{
+  "tables": [
+    {"table_name": "table1", "description": "..." }
+  ],
+  "columns": [
+    {"column_id": "table1.column1", "description": "..." }
+  ]
+}
 
-Schema JSON:
-{json.dumps(schema_data)}
+Rules:
+- Use short but meaningful descriptions
+- If unclear, make best guess based on name + datatype
+- Do NOT return markdown
+- Do NOT include extra keys
+"""
+
+    user_prompt = f"""
+Here is the database schema:
+
+{schema_text}
+
+Now generate JSON descriptions for ALL tables and ALL columns.
 """
 
     resp = client.chat.completions.create(
-        model=DEFAULT_GROQ_MODEL,   # ✅ FIXED MODEL
-        messages=[{"role": "user", "content": prompt}],
-        temperature=0.0,
+        model=groq_cfg.model,
+        messages=[
+            {"role": "system", "content": system_prompt.strip()},
+            {"role": "user", "content": user_prompt.strip()},
+        ],
+        temperature=0.2,
     )
 
-    raw = resp.choices[0].message.content
-    parsed = _safe_json_parse(raw)
+    raw = resp.choices[0].message.content.strip()
 
-    return {
-        "schema_name": schema_data.get("schema_name"),
-        "tables": parsed.get("tables", {}),
-        "columns": parsed.get("columns", {}),
-    }
+    # ✅ Safe JSON parsing (Groq sometimes wraps with text)
+    try:
+        data = json.loads(raw)
+    except Exception:
+        # try to extract JSON block
+        start = raw.find("{")
+        end = raw.rfind("}")
+        if start != -1 and end != -1:
+            data = json.loads(raw[start : end + 1])
+        else:
+            raise ValueError("Groq did not return valid JSON")
+
+    # Ensure structure exists
+    tables = data.get("tables", [])
+    columns = data.get("columns", [])
+
+    if not isinstance(tables, list):
+        tables = []
+    if not isinstance(columns, list):
+        columns = []
+
+    return {"tables": tables, "columns": columns}
