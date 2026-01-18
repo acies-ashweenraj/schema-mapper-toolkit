@@ -5,9 +5,10 @@ Summary: Schema extraction, profiling, descriptions and matching toolkit
 Author-email: Ashween <ashween@example.com>
 Requires-Python: >=3.9
 Description-Content-Type: text/markdown
-Requires-Dist: sqlalchemy>=2.0.0
-Requires-Dist: psycopg2-binary>=2.9.0
-Requires-Dist: groq>=0.9.0
+Requires-Dist: sqlalchemy
+Requires-Dist: psycopg2-binary
+Requires-Dist: qdrant-client
+Requires-Dist: sentence-transformers
 
 # Schema Matching Toolkit (Module 1)
 

@@ -2,7 +2,7 @@ from typing import Dict, Any, List
 from sentence_transformers import SentenceTransformer
 from qdrant_client import QdrantClient
 
-from schema_matching_toolkit.common.qdrant_config import QdrantConfig
+from schema_matching_toolkit.common.db_config import QdrantConfig
 
 
 EMBEDDER = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")

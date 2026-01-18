@@ -3,7 +3,7 @@ from sentence_transformers import SentenceTransformer
 from qdrant_client import QdrantClient
 from qdrant_client.models import VectorParams, Distance, PointStruct
 
-from schema_matching_toolkit.common.qdrant_config import QdrantConfig
+from schema_matching_toolkit.common.db_config import QdrantConfig
 
 
 EMBEDDER = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
