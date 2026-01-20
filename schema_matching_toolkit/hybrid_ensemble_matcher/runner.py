@@ -27,7 +27,7 @@ def run_hybrid_mapping(
       - (Optional) Groq descriptions
       - Index target for MiniLM + MPNet
       - Hybrid ensemble match
-      - Return table + column results
+      - Returns table matches first, then column matches inside tables
     """
 
     source_schema = extract_schema(src_cfg)
@@ -40,19 +40,21 @@ def run_hybrid_mapping(
         source_desc = describe_schema_with_groq(source_schema, groq_cfg)
         target_desc = describe_schema_with_groq(target_schema, groq_cfg)
 
+    # Index target schema for MiniLM
     index_target_schema_to_qdrant(
         target_schema=target_schema,
         qdrant_cfg=qdrant_cfg_minilm,
         recreate=recreate_indexes,
     )
 
+    # Index target schema for MPNet
     index_target_columns_mpnet(
         target_schema=target_schema,
         qdrant_cfg=qdrant_cfg_mpnet,
         recreate=recreate_indexes,
     )
 
-    return hybrid_ensemble_match(
+    result = hybrid_ensemble_match(
         source_schema=source_schema,
         target_schema=target_schema,
         qdrant_cfg_minilm=qdrant_cfg_minilm,
@@ -63,3 +65,5 @@ def run_hybrid_mapping(
         weights=weights,
         include_table_matches=include_table_matches,
     )
+
+    return result

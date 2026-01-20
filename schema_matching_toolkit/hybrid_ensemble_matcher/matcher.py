@@ -185,8 +185,8 @@ def hybrid_ensemble_match(
       - MPNet dense (Qdrant)
 
     Output format:
-      1) table matches first
-      2) inside each table -> column matches
+      - table matches first
+      - inside each table -> column matches
     """
 
     if weights is None:
@@ -241,17 +241,9 @@ def hybrid_ensemble_match(
             }
         )
 
-    # -------------------------
-    # Output
-    # -------------------------
+    # Always keep column count available
     out: Dict[str, Any] = {
-        "debug": {
-            "bm25_top1": True,
-            "dense_top_k": top_k_dense,
-            "minilm_collection": qdrant_cfg_minilm.collection_name,
-            "mpnet_collection": qdrant_cfg_mpnet.collection_name,
-            "descriptions_used": bool(source_descriptions and target_descriptions),
-        }
+        "column_match_count": len(column_matches),
     }
 
     # -------------------------
@@ -280,7 +272,6 @@ def hybrid_ensemble_match(
         out["tables"] = tables_out
 
     else:
-        out["column_match_count"] = len(column_matches)
         out["column_matches"] = column_matches
 
     return out
