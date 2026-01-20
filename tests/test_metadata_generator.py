@@ -1,13 +1,8 @@
-import json
-
 from schema_matching_toolkit import DBConfig, GroqConfig
 from schema_matching_toolkit.schema_metadata_generator import generate_schema_metadata
 
 
 def main():
-    GROQ_API_KEY = "" 
-    groq_cfg = GroqConfig(api_key=GROQ_API_KEY)
-
     db_cfg = DBConfig(
         db_type="postgres",
         host="localhost",
@@ -20,15 +15,12 @@ def main():
 
     metadata = generate_schema_metadata(
         db_cfg=db_cfg,
-        groq_cfg=groq_cfg,
-        profile_sample_size=200,
-        profile_top_k=5,
+        groq_cfg=GroqConfig(api_key=""),  
+        output_format="json"
     )
 
-    # save output
-    output_file = "schema_metadata_output.json"
-    with open(output_file, "w", encoding="utf-8") as f:
-        json.dump(metadata, f, indent=2, ensure_ascii=False)
+    print("done")
+    print("Saved file:", metadata.get("saved_file"))
 
 
 if __name__ == "__main__":

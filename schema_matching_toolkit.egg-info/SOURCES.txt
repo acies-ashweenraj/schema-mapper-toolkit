@@ -27,6 +27,7 @@ schema_matching_toolkit/relationship_detector/detector.py
 schema_matching_toolkit/schema_extractor/__init__.py
 schema_matching_toolkit/schema_extractor/extractor.py
 schema_matching_toolkit/schema_metadata_generator/__init__.py
+schema_matching_toolkit/schema_metadata_generator/exporter.py
 schema_matching_toolkit/schema_metadata_generator/generator.py
 schema_matching_toolkit/sparse_bm25/__init__.py
 schema_matching_toolkit/sparse_bm25/bm25_matcher.py
