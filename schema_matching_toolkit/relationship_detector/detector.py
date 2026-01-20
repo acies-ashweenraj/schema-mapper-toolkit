@@ -121,7 +121,6 @@ def _get_constraints_postgres(engine: Engine, schema: str) -> List[Dict[str, Any
                 "pk_table": r[2],
                 "pk_column": r[3],
                 "confidence": 1.0,
-                "method": "db_constraint",
             }
         )
     return rels
@@ -170,8 +169,7 @@ def _heuristic_relationships(schema_data: Dict[str, Any]) -> List[Dict[str, Any]
                     "fk_column": fk_col,
                     "pk_table": pk_table,
                     "pk_column": pk_col,
-                    "confidence": round(best_score, 4),
-                    "method": "heuristic",
+                    "confidence": round(best_score, 4)
                 }
             )
 
@@ -218,6 +216,6 @@ def detect_relationships(cfg: DBConfig, schema_data: Dict[str, Any]) -> Dict[str
         enriched["tables"].append(enriched_table)
 
     enriched["relationship_count"] = len(relationships)
-    enriched["relationship_method"] = "db_constraint" if any(r["method"] == "db_constraint" for r in relationships) else "heuristic"
+    # enriched["relationship_method"] = "db_constraint" if any(r["method"] == "db_constraint" for r in relationships) else "heuristic"
 
     return enriched
