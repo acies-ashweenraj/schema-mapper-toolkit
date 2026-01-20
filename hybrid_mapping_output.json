@@ -1,11 +1,5 @@
 {
-  "debug": {
-    "bm25_top1": true,
-    "dense_top_k": 1,
-    "minilm_collection": "minilm_columns",
-    "mpnet_collection": "mpnet_columns",
-    "descriptions_used": true
-  },
+  "column_match_count": 22,
   "table_match_count": 5,
   "tables": [
     {
@@ -52,6 +46,104 @@
           "candidates": [
             {
               "candidate": "tbl_dept_master.loc_ref_cd",
+              "bm25_score": 1.0,
+              "minilm_score": 1.0,
+              "mpnet_score": 1.0,
+              "final_score": 1.0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "source_table": "tbl_emp_core_dtls",
+      "best_match_table": "tbl_emp_core_dtls",
+      "confidence": 1.0,
+      "column_match_count": 6,
+      "column_matches": [
+        {
+          "source": "tbl_emp_core_dtls.emp_unq_ref",
+          "best_match": "tbl_emp_core_dtls.emp_unq_ref",
+          "confidence": 1.0,
+          "match_source": "ensemble",
+          "candidates": [
+            {
+              "candidate": "tbl_emp_core_dtls.emp_unq_ref",
+              "bm25_score": 1.0,
+              "minilm_score": 1.0,
+              "mpnet_score": 1.0,
+              "final_score": 1.0
+            }
+          ]
+        },
+        {
+          "source": "tbl_emp_core_dtls.emp_fn_nm",
+          "best_match": "tbl_emp_core_dtls.emp_fn_nm",
+          "confidence": 1.0,
+          "match_source": "ensemble",
+          "candidates": [
+            {
+              "candidate": "tbl_emp_core_dtls.emp_fn_nm",
+              "bm25_score": 1.0,
+              "minilm_score": 1.0,
+              "mpnet_score": 1.0,
+              "final_score": 1.0
+            }
+          ]
+        },
+        {
+          "source": "tbl_emp_core_dtls.emp_ln_nm",
+          "best_match": "tbl_emp_core_dtls.emp_ln_nm",
+          "confidence": 1.0,
+          "match_source": "ensemble",
+          "candidates": [
+            {
+              "candidate": "tbl_emp_core_dtls.emp_ln_nm",
+              "bm25_score": 1.0,
+              "minilm_score": 1.0,
+              "mpnet_score": 1.0,
+              "final_score": 1.0
+            }
+          ]
+        },
+        {
+          "source": "tbl_emp_core_dtls.wrk_email_addr",
+          "best_match": "tbl_emp_core_dtls.wrk_email_addr",
+          "confidence": 1.0,
+          "match_source": "ensemble",
+          "candidates": [
+            {
+              "candidate": "tbl_emp_core_dtls.wrk_email_addr",
+              "bm25_score": 1.0,
+              "minilm_score": 1.0,
+              "mpnet_score": 1.0,
+              "final_score": 1.0
+            }
+          ]
+        },
+        {
+          "source": "tbl_emp_core_dtls.dt_hire_eff",
+          "best_match": "tbl_emp_core_dtls.dt_hire_eff",
+          "confidence": 1.0,
+          "match_source": "ensemble",
+          "candidates": [
+            {
+              "candidate": "tbl_emp_core_dtls.dt_hire_eff",
+              "bm25_score": 1.0,
+              "minilm_score": 1.0,
+              "mpnet_score": 1.0,
+              "final_score": 1.0
+            }
+          ]
+        },
+        {
+          "source": "tbl_emp_core_dtls.dept_fk_ref",
+          "best_match": "tbl_emp_core_dtls.dept_fk_ref",
+          "confidence": 1.0,
+          "match_source": "ensemble",
+          "candidates": [
+            {
+              "candidate": "tbl_emp_core_dtls.dept_fk_ref",
               "bm25_score": 1.0,
               "minilm_score": 1.0,
               "mpnet_score": 1.0,
@@ -271,111 +363,6 @@
           "candidates": [
             {
               "candidate": "tbl_prj_portfolio.dt_prj_end",
-              "bm25_score": 1.0,
-              "minilm_score": 1.0,
-              "mpnet_score": 1.0,
-              "final_score": 1.0
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "source_table": "tbl_emp_core_dtls",
-      "best_match_table": "tbl_emp_core_dtls",
-      "confidence": 0.9417,
-      "column_match_count": 6,
-      "column_matches": [
-        {
-          "source": "tbl_emp_core_dtls.emp_unq_ref",
-          "best_match": "tbl_emp_core_dtls.emp_unq_ref",
-          "confidence": 0.65,
-          "match_source": "ensemble",
-          "candidates": [
-            {
-              "candidate": "tbl_emp_core_dtls.emp_unq_ref",
-              "bm25_score": 1.0,
-              "minilm_score": 0.0,
-              "mpnet_score": 1.0,
-              "final_score": 0.65
-            },
-            {
-              "candidate": "tbl_emp_core_dtls.dept_fk_ref",
-              "bm25_score": 0.0,
-              "minilm_score": 1.0,
-              "mpnet_score": 0.0,
-              "final_score": 0.35
-            }
-          ]
-        },
-        {
-          "source": "tbl_emp_core_dtls.emp_fn_nm",
-          "best_match": "tbl_emp_core_dtls.emp_fn_nm",
-          "confidence": 1.0,
-          "match_source": "ensemble",
-          "candidates": [
-            {
-              "candidate": "tbl_emp_core_dtls.emp_fn_nm",
-              "bm25_score": 1.0,
-              "minilm_score": 1.0,
-              "mpnet_score": 1.0,
-              "final_score": 1.0
-            }
-          ]
-        },
-        {
-          "source": "tbl_emp_core_dtls.emp_ln_nm",
-          "best_match": "tbl_emp_core_dtls.emp_ln_nm",
-          "confidence": 1.0,
-          "match_source": "ensemble",
-          "candidates": [
-            {
-              "candidate": "tbl_emp_core_dtls.emp_ln_nm",
-              "bm25_score": 1.0,
-              "minilm_score": 1.0,
-              "mpnet_score": 1.0,
-              "final_score": 1.0
-            }
-          ]
-        },
-        {
-          "source": "tbl_emp_core_dtls.wrk_email_addr",
-          "best_match": "tbl_emp_core_dtls.wrk_email_addr",
-          "confidence": 1.0,
-          "match_source": "ensemble",
-          "candidates": [
-            {
-              "candidate": "tbl_emp_core_dtls.wrk_email_addr",
-              "bm25_score": 1.0,
-              "minilm_score": 1.0,
-              "mpnet_score": 1.0,
-              "final_score": 1.0
-            }
-          ]
-        },
-        {
-          "source": "tbl_emp_core_dtls.dt_hire_eff",
-          "best_match": "tbl_emp_core_dtls.dt_hire_eff",
-          "confidence": 1.0,
-          "match_source": "ensemble",
-          "candidates": [
-            {
-              "candidate": "tbl_emp_core_dtls.dt_hire_eff",
-              "bm25_score": 1.0,
-              "minilm_score": 1.0,
-              "mpnet_score": 1.0,
-              "final_score": 1.0
-            }
-          ]
-        },
-        {
-          "source": "tbl_emp_core_dtls.dept_fk_ref",
-          "best_match": "tbl_emp_core_dtls.dept_fk_ref",
-          "confidence": 1.0,
-          "match_source": "ensemble",
-          "candidates": [
-            {
-              "candidate": "tbl_emp_core_dtls.dept_fk_ref",
               "bm25_score": 1.0,
               "minilm_score": 1.0,
               "mpnet_score": 1.0,

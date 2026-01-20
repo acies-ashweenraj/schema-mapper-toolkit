@@ -10,7 +10,8 @@ schema_matching_toolkit/common/__init__.py
 schema_matching_toolkit/common/db_config.py
 schema_matching_toolkit/hybrid_ensemble_matcher/__init__.py
 schema_matching_toolkit/hybrid_ensemble_matcher/matcher.py
-schema_matching_toolkit/hybrid_ensemble_matcher/table_matcher.py
+schema_matching_toolkit/hybrid_ensemble_matcher/runner.py
+schema_matching_toolkit/hybrid_ensemble_matcher/table_mapper.py
 schema_matching_toolkit/llm_description/__init__.py
 schema_matching_toolkit/llm_description/groq_describer.py
 schema_matching_toolkit/minilm_dense_matcher/__init__.py
