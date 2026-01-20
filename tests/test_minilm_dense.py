@@ -22,7 +22,7 @@ def main():
         db_type="postgres",
         host="localhost",
         port=5432,
-        database="employee",
+        database="GPC",
         username="postgres",
         password="ashween29",
         schema_name="public",
@@ -67,13 +67,13 @@ def main():
         source_schema=source_schema,
         qdrant_cfg=qdrant_cfg,
         source_descriptions=source_desc,
-        top_k=3,
+        top_k=1,
     )
 
     print("\n✅ MiniLM Dense Matching Done")
     print("Matches:", result["match_count"])
 
-    for m in result["matches"][:3]:
+    for m in result["matches"][:100]:
         print("\nSOURCE:", m["source"])
         print("BEST:", m["best_match"], "score:", m["confidence"])
         print("CANDIDATES:", m["candidates"])

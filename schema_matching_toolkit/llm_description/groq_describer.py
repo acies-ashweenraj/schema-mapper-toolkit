@@ -1,4 +1,4 @@
-from typing import Dict, Any, List
+from typing import Dict, Any
 import json
 
 from groq import Groq
@@ -42,15 +42,15 @@ def describe_schema_with_groq(
     """
 
     client = Groq(api_key=groq_cfg.api_key)
-
     schema_text = _schema_to_prompt(schema)
 
     system_prompt = """
-You are a metadata expert.
-Generate business-friendly descriptions for database tables and columns.
+You are a database metadata expert.
 
-Return ONLY valid JSON in this format:
+Your job:
+Generate business-friendly descriptions for ALL tables and ALL columns.
 
+Return ONLY valid JSON in this exact format:
 {
   "tables": [
     {"table_name": "table1", "description": "..." }
@@ -60,11 +60,20 @@ Return ONLY valid JSON in this format:
   ]
 }
 
-Rules:
-- Use short but meaningful descriptions
-- If unclear, make best guess based on name + datatype
-- Do NOT return markdown
-- Do NOT include extra keys
+STRICT RULES:
+1) Every description MUST be 2 to 3 full sentences (not one line).
+2) Table descriptions must explain:
+   - what the table represents
+   - what kind of records it stores
+   - how it is typically used in analytics/business workflows
+3) Column descriptions must explain:
+   - what the column represents
+   - what type of values it stores (based on name + datatype)
+   - why it matters / how it is used
+4) If meaning is unclear, make the best guess based on naming patterns.
+5) Do NOT return markdown.
+6) Do NOT add extra keys.
+7) Output must be valid JSON only.
 """
 
     user_prompt = f"""
@@ -86,11 +95,10 @@ Now generate JSON descriptions for ALL tables and ALL columns.
 
     raw = resp.choices[0].message.content.strip()
 
-    # ✅ Safe JSON parsing (Groq sometimes wraps with text)
+    # Safe JSON parsing (Groq sometimes wraps with text)
     try:
         data = json.loads(raw)
     except Exception:
-        # try to extract JSON block
         start = raw.find("{")
         end = raw.rfind("}")
         if start != -1 and end != -1:
@@ -98,7 +106,6 @@ Now generate JSON descriptions for ALL tables and ALL columns.
         else:
             raise ValueError("Groq did not return valid JSON")
 
-    # Ensure structure exists
     tables = data.get("tables", [])
     columns = data.get("columns", [])
 

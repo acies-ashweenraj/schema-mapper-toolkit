@@ -8,7 +8,9 @@ schema_matching_toolkit.egg-info/requires.txt
 schema_matching_toolkit.egg-info/top_level.txt
 schema_matching_toolkit/common/__init__.py
 schema_matching_toolkit/common/db_config.py
-schema_matching_toolkit/common/qdrant_config.py
+schema_matching_toolkit/hybrid_ensemble_matcher/__init__.py
+schema_matching_toolkit/hybrid_ensemble_matcher/matcher.py
+schema_matching_toolkit/hybrid_ensemble_matcher/table_matcher.py
 schema_matching_toolkit/llm_description/__init__.py
 schema_matching_toolkit/llm_description/groq_describer.py
 schema_matching_toolkit/minilm_dense_matcher/__init__.py
@@ -23,6 +25,8 @@ schema_matching_toolkit/relationship_detector/__init__.py
 schema_matching_toolkit/relationship_detector/detector.py
 schema_matching_toolkit/schema_extractor/__init__.py
 schema_matching_toolkit/schema_extractor/extractor.py
+schema_matching_toolkit/schema_metadata_generator/__init__.py
+schema_matching_toolkit/schema_metadata_generator/generator.py
 schema_matching_toolkit/sparse_bm25/__init__.py
 schema_matching_toolkit/sparse_bm25/bm25_matcher.py
 schema_matching_toolkit/utils/__init__.py
@@ -30,7 +34,9 @@ schema_matching_toolkit/utils/schema_flatten.py
 tests/test-description.py
 tests/test_bm25_sparse.py
 tests/test_extract.py
+tests/test_hybrid_ensemble.py
 tests/test_llm_embedding_match.py
+tests/test_metadata_generator.py
 tests/test_minilm_dense.py
 tests/test_profile.py
 tests/test_relationship.py

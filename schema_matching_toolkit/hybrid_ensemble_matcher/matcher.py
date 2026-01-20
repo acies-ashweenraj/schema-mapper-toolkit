@@ -5,6 +5,8 @@ from schema_matching_toolkit.minilm_dense_matcher import match_source_to_target_
 from schema_matching_toolkit.mpnet_embedding_matcher import mpnet_dense_match
 from schema_matching_toolkit.common.db_config import QdrantConfig
 
+from .table_mapper import build_table_matches_from_column_matches
+
 
 def _safe_float(x, default=0.0) -> float:
     try:
@@ -101,7 +103,6 @@ def _pick_best_candidate(
         "target_col": {"bm25":0.2, "minilm":0.9, "mpnet":0.8}
       }
     """
-    # Normalize each method scores separately for fairness
     bm25_scores = {t: v.get("bm25", 0.0) for t, v in candidate_map.items()}
     minilm_scores = {t: v.get("minilm", 0.0) for t, v in candidate_map.items()}
     mpnet_scores = {t: v.get("mpnet", 0.0) for t, v in candidate_map.items()}
@@ -139,7 +140,31 @@ def _pick_best_candidate(
         return None, 0.0, []
 
     best = ranked[0]
-    return best["candidate"], best["final_score"], ranked
+    return best["candidate"], float(best["final_score"]), ranked
+
+
+def _group_column_matches_by_table(
+    column_matches: List[Dict[str, Any]]
+) -> Dict[str, List[Dict[str, Any]]]:
+    """
+    Groups column matches by source table name.
+
+    Returns:
+      {
+        "source_table": [col_match1, col_match2, ...]
+      }
+    """
+    grouped: Dict[str, List[Dict[str, Any]]] = {}
+
+    for m in column_matches:
+        src = m.get("source", "")
+        if "." not in src:
+            continue
+
+        src_table = src.split(".", 1)[0]
+        grouped.setdefault(src_table, []).append(m)
+
+    return grouped
 
 
 def hybrid_ensemble_match(
@@ -151,6 +176,7 @@ def hybrid_ensemble_match(
     target_descriptions: Optional[Dict[str, Any]] = None,
     top_k_dense: int = 5,
     weights: Optional[Dict[str, float]] = None,
+    include_table_matches: bool = True,
 ) -> Dict[str, Any]:
     """
     Hybrid Ensemble Matching:
@@ -158,19 +184,22 @@ def hybrid_ensemble_match(
       - MiniLM dense (Qdrant)
       - MPNet dense (Qdrant)
 
-    Descriptions are OPTIONAL but recommended.
+    Output format:
+      1) table matches first
+      2) inside each table -> column matches
     """
+
     if weights is None:
         weights = {"bm25": 0.25, "minilm": 0.35, "mpnet": 0.40}
 
-    # 1) BM25 top-1 (now supports descriptions too)
+    # 1) BM25
     bm25_res = bm25_match(
         source_schema=source_schema,
         target_schema=target_schema,
         top_k=1,
     )
 
-    # 2) MiniLM dense search (uses descriptions in query text)
+    # 2) MiniLM
     minilm_res = match_source_to_target_dense(
         source_schema=source_schema,
         qdrant_cfg=qdrant_cfg_minilm,
@@ -178,7 +207,7 @@ def hybrid_ensemble_match(
         top_k=top_k_dense,
     )
 
-    # 3) MPNet dense match (uses descriptions in indexing + query)
+    # 3) MPNet
     mpnet_res = mpnet_dense_match(
         source_schema=source_schema,
         target_schema=target_schema,
@@ -191,7 +220,10 @@ def hybrid_ensemble_match(
 
     combined = _collect_candidates(bm25_res, minilm_res, mpnet_res)
 
-    final_matches = []
+    # -------------------------
+    # Column matches
+    # -------------------------
+    column_matches: List[Dict[str, Any]] = []
 
     for src, cand_map in combined.items():
         best_target, best_score, ranked_candidates = _pick_best_candidate(
@@ -199,7 +231,7 @@ def hybrid_ensemble_match(
             weights=weights,
         )
 
-        final_matches.append(
+        column_matches.append(
             {
                 "source": src,
                 "best_match": best_target,
@@ -209,16 +241,46 @@ def hybrid_ensemble_match(
             }
         )
 
-    return {
-        "method": "hybrid_ensemble",
-        "weights": weights,
-        "match_count": len(final_matches),
-        "matches": final_matches,
+    # -------------------------
+    # Output
+    # -------------------------
+    out: Dict[str, Any] = {
         "debug": {
             "bm25_top1": True,
             "dense_top_k": top_k_dense,
             "minilm_collection": qdrant_cfg_minilm.collection_name,
             "mpnet_collection": qdrant_cfg_mpnet.collection_name,
             "descriptions_used": bool(source_descriptions and target_descriptions),
-        },
+        }
     }
+
+    # -------------------------
+    # Table matches first + nested column matches
+    # -------------------------
+    if include_table_matches:
+        table_info = build_table_matches_from_column_matches({"matches": column_matches})
+        table_matches = table_info.get("table_matches", [])
+
+        grouped_cols = _group_column_matches_by_table(column_matches)
+
+        tables_out = []
+        for t in table_matches:
+            src_table = t.get("source_table")
+            tables_out.append(
+                {
+                    "source_table": src_table,
+                    "best_match_table": t.get("best_match_table"),
+                    "confidence": t.get("confidence"),
+                    "column_match_count": t.get("column_match_count", 0),
+                    "column_matches": grouped_cols.get(src_table, []),
+                }
+            )
+
+        out["table_match_count"] = len(tables_out)
+        out["tables"] = tables_out
+
+    else:
+        out["column_match_count"] = len(column_matches)
+        out["column_matches"] = column_matches
+
+    return out

@@ -9,7 +9,9 @@ from .sparse_bm25 import bm25_match
 
 from .mpnet_embedding_matcher import mpnet_dense_match, index_target_columns_mpnet
 
-from .llm_description.groq_describer import describe_schema_with_groq  # ✅ ADD THIS
+from .llm_description.groq_describer import describe_schema_with_groq 
+
+from .schema_metadata_generator import generate_schema_metadata
 
 __all__ = [
     "DBConfig",
@@ -26,4 +28,5 @@ __all__ = [
 
     "mpnet_dense_match",
     "index_target_columns_mpnet",
+    "generate_schema_metadata"
 ]
