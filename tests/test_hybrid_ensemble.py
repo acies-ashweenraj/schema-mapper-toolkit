@@ -1,5 +1,4 @@
-import json
-from schema_matching_toolkit import DBConfig, QdrantConfig, GroqConfig
+from schema_matching_toolkit import DBConfig, GroqConfig
 from schema_matching_toolkit.hybrid_ensemble_matcher import run_hybrid_mapping
 
 
@@ -18,35 +17,23 @@ def main():
             db_type="postgres",
             host="localhost",
             port=5432,
-            database="employee",
+            database="GPC",
             username="postgres",
             password="ashween29",
             schema_name="public",
         ),
-        qdrant_cfg_minilm=QdrantConfig(
-            host="localhost",
-            port=6333,
-            collection_name="minilm_columns",
-            vector_name="dense_vector",
-            vector_size=384,
-        ),
-        qdrant_cfg_mpnet=QdrantConfig(
-            host="localhost",
-            port=6333,
-            collection_name="mpnet_columns",
-            vector_name="dense_vector",
-            vector_size=768,
-        ),
-        groq_cfg=GroqConfig(api_key=""),
-        top_k_dense=1
-        # weights={"bm25": 0.25, "minilm": 0.35, "mpnet": 0.40},
+        qdrant_host="localhost",
+        qdrant_port=6333,
+        groq_cfg=GroqConfig(api_key=""),  # use env variable if needed             # json / csv / xlsx
+        top_k_dense=5,
     )
 
-    output_file = "hybrid_mapping_output.json"
-    with open(output_file, "w", encoding="utf-8") as f:
-        json.dump(result, f, indent=2, ensure_ascii=False)
+    print("Done")
+    print("Generated at:", result["generated_at"])
+    print("Saved file:", result["saved_file"])
+    print("Tables matched:", result["table_match_count"])
+    print("Columns matched:", result["column_match_count"])
 
-    print("Saved output to:", output_file)
 
 if __name__ == "__main__":
     main()
