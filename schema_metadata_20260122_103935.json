@@ -1,0 +1,2178 @@
+{
+  "generated_at": "2026-01-22T05:09:35.325214Z",
+  "database": {
+    "db_type": "postgres",
+    "host": "localhost",
+    "port": 5432,
+    "database": "ehs_client",
+    "schema_name": "public"
+  },
+  "summary": {
+    "table_count": 6,
+    "column_count": 30,
+    "relationship_count": 5
+  },
+  "tables": [
+    {
+      "table_name": "audit_checks",
+      "description": "The audit_checks table represents a collection of audit records for various sites. It stores information about the audit date, auditor, and audit score, which are crucial for monitoring and improving the overall quality and compliance of the organization. This table is typically used in analytics and business workflows to track audit performance, identify areas of improvement, and make data-driven decisions.",
+      "row_count": 1000,
+      "column_count": 5,
+      "columns": [
+        {
+          "column_name": "audit_pk",
+          "data_type": "integer",
+          "kind": "numeric",
+          "description": "The audit_pk column represents a unique identifier for each audit record, enabling the organization to track and manage audit data. It stores an integer value, which is a primary key in the audit_checks table. This column is crucial for maintaining data integrity and facilitating data analysis.",
+          "profiling": {
+            "row_count": 1000,
+            "not_null_count": 1000,
+            "null_count": 0,
+            "null_percent": 0.0,
+            "distinct_count": 1000,
+            "distinct_percent": 100.0,
+            "duplicate_count": 0,
+            "entropy": 5.643856,
+            "top_values": [
+              {
+                "value": 273,
+                "count": 1
+              },
+              {
+                "value": 51,
+                "count": 1
+              },
+              {
+                "value": 652,
+                "count": 1
+              }
+            ],
+            "sample_values": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20
+            ],
+            "numeric_stats": {
+              "min": 1,
+              "max": 1000,
+              "avg": 500.5,
+              "sum": 500500.0,
+              "stddev": 288.67499025721,
+              "p25": 250.75,
+              "median": 500.5,
+              "p75": 750.25,
+              "iqr": 499.5,
+              "range": 999.0,
+              "zero_count": 0,
+              "negative_count": 0
+            }
+          }
+        },
+        {
+          "column_name": "site_fk",
+          "data_type": "integer",
+          "kind": "numeric",
+          "description": "The site_fk column represents the foreign key referencing the site_master table, enabling the organization to link audit records to specific sites. It stores an integer value, which is a foreign key in the audit_checks table. This column is essential for tracking site-level audit data and making informed decisions.",
+          "profiling": {
+            "row_count": 1000,
+            "not_null_count": 1000,
+            "null_count": 0,
+            "null_percent": 0.0,
+            "distinct_count": 1000,
+            "distinct_percent": 100.0,
+            "duplicate_count": 0,
+            "entropy": 5.643856,
+            "top_values": [
+              {
+                "value": 273,
+                "count": 1
+              },
+              {
+                "value": 51,
+                "count": 1
+              },
+              {
+                "value": 652,
+                "count": 1
+              }
+            ],
+            "sample_values": [
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21
+            ],
+            "numeric_stats": {
+              "min": 1,
+              "max": 1000,
+              "avg": 500.5,
+              "sum": 500500.0,
+              "stddev": 288.67499025721,
+              "p25": 250.75,
+              "median": 500.5,
+              "p75": 750.25,
+              "iqr": 499.5,
+              "range": 999.0,
+              "zero_count": 0,
+              "negative_count": 0
+            }
+          }
+        },
+        {
+          "column_name": "audit_dt",
+          "data_type": "date",
+          "kind": "datetime",
+          "description": "The audit_dt column represents the date of each audit record, providing valuable insights into the organization's audit history. It stores a date value, which is a key attribute in the audit_checks table. This column is commonly used in analytics and business workflows to track audit trends and identify areas of improvement.",
+          "profiling": {
+            "row_count": 1000,
+            "not_null_count": 1000,
+            "null_count": 0,
+            "null_percent": 0.0,
+            "distinct_count": 365,
+            "distinct_percent": 36.5,
+            "duplicate_count": 635,
+            "entropy": 5.643856,
+            "top_values": [
+              {
+                "value": "2025-11-24",
+                "count": 3
+              },
+              {
+                "value": "2025-10-22",
+                "count": 3
+              },
+              {
+                "value": "2025-05-22",
+                "count": 3
+              }
+            ],
+            "sample_values": [
+              "2026-01-21",
+              "2026-01-20",
+              "2026-01-19",
+              "2026-01-18",
+              "2026-01-17",
+              "2026-01-16",
+              "2026-01-15",
+              "2026-01-14",
+              "2026-01-13",
+              "2026-01-12",
+              "2026-01-11",
+              "2026-01-10",
+              "2026-01-09",
+              "2026-01-08",
+              "2026-01-07",
+              "2026-01-06",
+              "2026-01-05",
+              "2026-01-04",
+              "2026-01-03",
+              "2026-01-02"
+            ],
+            "date_stats": {
+              "min_date": "2025-01-23",
+              "max_date": "2026-01-22",
+              "range_days": 364,
+              "weekday_distribution": {
+                "Thursday": 144,
+                "Tuesday": 143,
+                "Wednesday": 143,
+                "Sunday": 143,
+                "Monday": 143,
+                "Saturday": 142,
+                "Friday": 142
+              },
+              "most_common_weekday": "Thursday",
+              "month_distribution": {
+                "5": 93,
+                "10": 93,
+                "7": 93,
+                "8": 93,
+                "12": 93,
+                "11": 90,
+                "6": 90,
+                "9": 90,
+                "1": 83,
+                "4": 64,
+                "3": 62,
+                "2": 56
+              },
+              "most_common_month": 5,
+              "weekend_count": 285
+            }
+          }
+        },
+        {
+          "column_name": "auditor",
+          "data_type": "character varying",
+          "kind": "text",
+          "description": "The auditor column represents the name of the auditor responsible for each audit record, enabling the organization to track audit personnel and performance. It stores a character varying value, which is a key attribute in the audit_checks table. This column is essential for maintaining audit records and facilitating data analysis.",
+          "profiling": {
+            "row_count": 1000,
+            "not_null_count": 1000,
+            "null_count": 0,
+            "null_percent": 0.0,
+            "distinct_count": 50,
+            "distinct_percent": 5.0,
+            "duplicate_count": 950,
+            "entropy": 5.643856,
+            "top_values": [
+              {
+                "value": "Auditor_9",
+                "count": 20
+              },
+              {
+                "value": "Auditor_15",
+                "count": 20
+              },
+              {
+                "value": "Auditor_24",
+                "count": 20
+              }
+            ],
+            "sample_values": [
+              "Auditor_1",
+              "Auditor_2",
+              "Auditor_3",
+              "Auditor_4",
+              "Auditor_5",
+              "Auditor_6",
+              "Auditor_7",
+              "Auditor_8",
+              "Auditor_9",
+              "Auditor_10",
+              "Auditor_11",
+              "Auditor_12",
+              "Auditor_13",
+              "Auditor_14",
+              "Auditor_15",
+              "Auditor_16",
+              "Auditor_17",
+              "Auditor_18",
+              "Auditor_19",
+              "Auditor_20"
+            ],
+            "text_stats": {
+              "min_length": 9,
+              "max_length": 10,
+              "avg_length": 9.8,
+              "empty_string_count": 0,
+              "digit_only_count": 0,
+              "alpha_only_count": 0,
+              "alnum_only_count": 0,
+              "email_like_count": 0
+            }
+          }
+        },
+        {
+          "column_name": "audit_score",
+          "data_type": "integer",
+          "kind": "numeric",
+          "description": "The audit_score column represents the score assigned to each audit record, providing valuable insights into the organization's audit performance. It stores an integer value, which is a key attribute in the audit_checks table. This column is commonly used in analytics and business workflows to track audit performance and identify areas of improvement.",
+          "profiling": {
+            "row_count": 1000,
+            "not_null_count": 1000,
+            "null_count": 0,
+            "null_percent": 0.0,
+            "distinct_count": 100,
+            "distinct_percent": 10.0,
+            "duplicate_count": 900,
+            "entropy": 5.643856,
+            "top_values": [
+              {
+                "value": 27,
+                "count": 10
+              },
+              {
+                "value": 23,
+                "count": 10
+              },
+              {
+                "value": 55,
+                "count": 10
+              }
+            ],
+            "sample_values": [
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21
+            ],
+            "numeric_stats": {
+              "min": 1,
+              "max": 100,
+              "avg": 50.5,
+              "sum": 50500.0,
+              "stddev": 28.86607004772212,
+              "p25": 25.75,
+              "median": 50.5,
+              "p75": 75.25,
+              "iqr": 49.5,
+              "range": 99.0,
+              "zero_count": 0,
+              "negative_count": 0
+            }
+          }
+        }
+      ],
+      "edges": [
+        {
+          "fk_table": "audit_checks",
+          "fk_column": "site_fk",
+          "pk_table": "site_master",
+          "pk_column": "site_pk",
+          "confidence": 1.0
+        }
+      ]
+    },
+    {
+      "table_name": "event_log",
+      "description": "The event_log table stores a record of events that occur within the organization, including staff activities, system updates, and other significant occurrences. It captures information about the event category, risk level, and the staff member involved, providing valuable insights into the organization's operations and risk management. This table is commonly used in analytics and business workflows to track event history, identify trends, and inform decision-making.",
+      "row_count": 1000,
+      "column_count": 5,
+      "columns": [
+        {
+          "column_name": "event_pk",
+          "data_type": "integer",
+          "kind": "numeric",
+          "description": "The event_pk column represents a unique identifier for each event record, enabling the organization to track and manage event data. It stores an integer value, which is a primary key in the event_log table. This column is crucial for maintaining data integrity and facilitating data analysis.",
+          "profiling": {
+            "row_count": 1000,
+            "not_null_count": 1000,
+            "null_count": 0,
+            "null_percent": 0.0,
+            "distinct_count": 1000,
+            "distinct_percent": 100.0,
+            "duplicate_count": 0,
+            "entropy": 5.643856,
+            "top_values": [
+              {
+                "value": 273,
+                "count": 1
+              },
+              {
+                "value": 51,
+                "count": 1
+              },
+              {
+                "value": 652,
+                "count": 1
+              }
+            ],
+            "sample_values": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20
+            ],
+            "numeric_stats": {
+              "min": 1,
+              "max": 1000,
+              "avg": 500.5,
+              "sum": 500500.0,
+              "stddev": 288.67499025721,
+              "p25": 250.75,
+              "median": 500.5,
+              "p75": 750.25,
+              "iqr": 499.5,
+              "range": 999.0,
+              "zero_count": 0,
+              "negative_count": 0
+            }
+          }
+        },
+        {
+          "column_name": "staff_fk",
+          "data_type": "integer",
+          "kind": "numeric",
+          "description": "The staff_fk column represents the foreign key referencing the staff table, enabling the organization to link event records to specific staff members. It stores an integer value, which is a foreign key in the event_log table. This column is essential for tracking staff-level event data and making informed decisions.",
+          "profiling": {
+            "row_count": 1000,
+            "not_null_count": 1000,
+            "null_count": 0,
+            "null_percent": 0.0,
+            "distinct_count": 1000,
+            "distinct_percent": 100.0,
+            "duplicate_count": 0,
+            "entropy": 5.643856,
+            "top_values": [
+              {
+                "value": 273,
+                "count": 1
+              },
+              {
+                "value": 51,
+                "count": 1
+              },
+              {
+                "value": 652,
+                "count": 1
+              }
+            ],
+            "sample_values": [
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21
+            ],
+            "numeric_stats": {
+              "min": 1,
+              "max": 1000,
+              "avg": 500.5,
+              "sum": 500500.0,
+              "stddev": 288.67499025721,
+              "p25": 250.75,
+              "median": 500.5,
+              "p75": 750.25,
+              "iqr": 499.5,
+              "range": 999.0,
+              "zero_count": 0,
+              "negative_count": 0
+            }
+          }
+        },
+        {
+          "column_name": "event_dt",
+          "data_type": "date",
+          "kind": "datetime",
+          "description": "The event_dt column represents the date of each event record, providing valuable insights into the organization's event history. It stores a date value, which is a key attribute in the event_log table. This column is commonly used in analytics and business workflows to track event trends and identify areas of improvement.",
+          "profiling": {
+            "row_count": 1000,
+            "not_null_count": 1000,
+            "null_count": 0,
+            "null_percent": 0.0,
+            "distinct_count": 365,
+            "distinct_percent": 36.5,
+            "duplicate_count": 635,
+            "entropy": 5.643856,
+            "top_values": [
+              {
+                "value": "2025-11-24",
+                "count": 3
+              },
+              {
+                "value": "2025-10-22",
+                "count": 3
+              },
+              {
+                "value": "2025-05-22",
+                "count": 3
+              }
+            ],
+            "sample_values": [
+              "2026-01-21",
+              "2026-01-20",
+              "2026-01-19",
+              "2026-01-18",
+              "2026-01-17",
+              "2026-01-16",
+              "2026-01-15",
+              "2026-01-14",
+              "2026-01-13",
+              "2026-01-12",
+              "2026-01-11",
+              "2026-01-10",
+              "2026-01-09",
+              "2026-01-08",
+              "2026-01-07",
+              "2026-01-06",
+              "2026-01-05",
+              "2026-01-04",
+              "2026-01-03",
+              "2026-01-02"
+            ],
+            "date_stats": {
+              "min_date": "2025-01-23",
+              "max_date": "2026-01-22",
+              "range_days": 364,
+              "weekday_distribution": {
+                "Thursday": 144,
+                "Tuesday": 143,
+                "Wednesday": 143,
+                "Sunday": 143,
+                "Monday": 143,
+                "Saturday": 142,
+                "Friday": 142
+              },
+              "most_common_weekday": "Thursday",
+              "month_distribution": {
+                "5": 93,
+                "10": 93,
+                "7": 93,
+                "8": 93,
+                "12": 93,
+                "11": 90,
+                "6": 90,
+                "9": 90,
+                "1": 83,
+                "4": 64,
+                "3": 62,
+                "2": 56
+              },
+              "most_common_month": 5,
+              "weekend_count": 285
+            }
+          }
+        },
+        {
+          "column_name": "event_category",
+          "data_type": "character varying",
+          "kind": "text",
+          "description": "The event_category column represents the category of each event record, enabling the organization to track event types and frequency. It stores a character varying value, which is a key attribute in the event_log table. This column is essential for maintaining event records and facilitating data analysis.",
+          "profiling": {
+            "row_count": 1000,
+            "not_null_count": 1000,
+            "null_count": 0,
+            "null_percent": 0.0,
+            "distinct_count": 10,
+            "distinct_percent": 1.0,
+            "duplicate_count": 990,
+            "entropy": 3.321928,
+            "top_values": [
+              {
+                "value": "Category_9",
+                "count": 100
+              },
+              {
+                "value": "Category_6",
+                "count": 100
+              },
+              {
+                "value": "Category_3",
+                "count": 100
+              }
+            ],
+            "sample_values": [
+              "Category_1",
+              "Category_2",
+              "Category_3",
+              "Category_4",
+              "Category_5",
+              "Category_6",
+              "Category_7",
+              "Category_8",
+              "Category_9",
+              "Category_0",
+              "Category_1",
+              "Category_2",
+              "Category_3",
+              "Category_4",
+              "Category_5",
+              "Category_6",
+              "Category_7",
+              "Category_8",
+              "Category_9",
+              "Category_0"
+            ],
+            "text_stats": {
+              "min_length": 10,
+              "max_length": 10,
+              "avg_length": 10.0,
+              "empty_string_count": 0,
+              "digit_only_count": 0,
+              "alpha_only_count": 0,
+              "alnum_only_count": 0,
+              "email_like_count": 0
+            }
+          }
+        },
+        {
+          "column_name": "risk_level",
+          "data_type": "integer",
+          "kind": "numeric",
+          "description": "The risk_level column represents the risk level associated with each event record, providing valuable insights into the organization's risk management. It stores an integer value, which is a key attribute in the event_log table. This column is commonly used in analytics and business workflows to track risk trends and identify areas of improvement.",
+          "profiling": {
+            "row_count": 1000,
+            "not_null_count": 1000,
+            "null_count": 0,
+            "null_percent": 0.0,
+            "distinct_count": 5,
+            "distinct_percent": 0.5,
+            "duplicate_count": 995,
+            "entropy": 2.321928,
+            "top_values": [
+              {
+                "value": 1,
+                "count": 200
+              },
+              {
+                "value": 3,
+                "count": 200
+              },
+              {
+                "value": 5,
+                "count": 200
+              }
+            ],
+            "sample_values": [
+              2,
+              3,
+              4,
+              5,
+              1,
+              2,
+              3,
+              4,
+              5,
+              1,
+              2,
+              3,
+              4,
+              5,
+              1,
+              2,
+              3,
+              4,
+              5,
+              1
+            ],
+            "numeric_stats": {
+              "min": 1,
+              "max": 5,
+              "avg": 3.0,
+              "sum": 3000.0,
+              "stddev": 1.414213562373095,
+              "p25": 2.0,
+              "median": 3.0,
+              "p75": 4.0,
+              "iqr": 2.0,
+              "range": 4.0,
+              "zero_count": 0,
+              "negative_count": 0
+            }
+          }
+        }
+      ],
+      "edges": [
+        {
+          "fk_table": "event_log",
+          "fk_column": "staff_fk",
+          "pk_table": "staff",
+          "pk_column": "staff_pk",
+          "confidence": 1.0
+        }
+      ]
+    },
+    {
+      "table_name": "learning_records",
+      "description": "The learning_records table represents a collection of records for staff training and development activities. It stores information about the course name, completion status, and the staff member involved, enabling the organization to track staff learning and development progress. This table is typically used in analytics and business workflows to monitor staff skills, identify training needs, and inform talent development strategies.",
+      "row_count": 1000,
+      "column_count": 5,
+      "columns": [
+        {
+          "column_name": "learning_pk",
+          "data_type": "integer",
+          "kind": "numeric",
+          "description": "The learning_pk column represents a unique identifier for each learning record, enabling the organization to track and manage learning data. It stores an integer value, which is a primary key in the learning_records table. This column is crucial for maintaining data integrity and facilitating data analysis.",
+          "profiling": {
+            "row_count": 1000,
+            "not_null_count": 1000,
+            "null_count": 0,
+            "null_percent": 0.0,
+            "distinct_count": 1000,
+            "distinct_percent": 100.0,
+            "duplicate_count": 0,
+            "entropy": 5.643856,
+            "top_values": [
+              {
+                "value": 273,
+                "count": 1
+              },
+              {
+                "value": 51,
+                "count": 1
+              },
+              {
+                "value": 652,
+                "count": 1
+              }
+            ],
+            "sample_values": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20
+            ],
+            "numeric_stats": {
+              "min": 1,
+              "max": 1000,
+              "avg": 500.5,
+              "sum": 500500.0,
+              "stddev": 288.67499025721,
+              "p25": 250.75,
+              "median": 500.5,
+              "p75": 750.25,
+              "iqr": 499.5,
+              "range": 999.0,
+              "zero_count": 0,
+              "negative_count": 0
+            }
+          }
+        },
+        {
+          "column_name": "staff_fk",
+          "data_type": "integer",
+          "kind": "numeric",
+          "description": "The staff_fk column represents the foreign key referencing the staff table, enabling the organization to link learning records to specific staff members. It stores an integer value, which is a foreign key in the learning_records table. This column is essential for tracking staff-level learning data and making informed decisions.",
+          "profiling": {
+            "row_count": 1000,
+            "not_null_count": 1000,
+            "null_count": 0,
+            "null_percent": 0.0,
+            "distinct_count": 1000,
+            "distinct_percent": 100.0,
+            "duplicate_count": 0,
+            "entropy": 5.643856,
+            "top_values": [
+              {
+                "value": 273,
+                "count": 1
+              },
+              {
+                "value": 51,
+                "count": 1
+              },
+              {
+                "value": 652,
+                "count": 1
+              }
+            ],
+            "sample_values": [
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21
+            ],
+            "numeric_stats": {
+              "min": 1,
+              "max": 1000,
+              "avg": 500.5,
+              "sum": 500500.0,
+              "stddev": 288.67499025721,
+              "p25": 250.75,
+              "median": 500.5,
+              "p75": 750.25,
+              "iqr": 499.5,
+              "range": 999.0,
+              "zero_count": 0,
+              "negative_count": 0
+            }
+          }
+        },
+        {
+          "column_name": "course_name",
+          "data_type": "character varying",
+          "kind": "text",
+          "description": "The course_name column represents the name of each course taken by staff members, enabling the organization to track training and development activities. It stores a character varying value, which is a key attribute in the learning_records table. This column is essential for maintaining learning records and facilitating data analysis.",
+          "profiling": {
+            "row_count": 1000,
+            "not_null_count": 1000,
+            "null_count": 0,
+            "null_percent": 0.0,
+            "distinct_count": 30,
+            "distinct_percent": 3.0,
+            "duplicate_count": 970,
+            "entropy": 4.843856,
+            "top_values": [
+              {
+                "value": "Course_3",
+                "count": 34
+              },
+              {
+                "value": "Course_8",
+                "count": 34
+              },
+              {
+                "value": "Course_4",
+                "count": 34
+              }
+            ],
+            "sample_values": [
+              "Course_1",
+              "Course_2",
+              "Course_3",
+              "Course_4",
+              "Course_5",
+              "Course_6",
+              "Course_7",
+              "Course_8",
+              "Course_9",
+              "Course_10",
+              "Course_11",
+              "Course_12",
+              "Course_13",
+              "Course_14",
+              "Course_15",
+              "Course_16",
+              "Course_17",
+              "Course_18",
+              "Course_19",
+              "Course_20"
+            ],
+            "text_stats": {
+              "min_length": 8,
+              "max_length": 9,
+              "avg_length": 8.661,
+              "empty_string_count": 0,
+              "digit_only_count": 0,
+              "alpha_only_count": 0,
+              "alnum_only_count": 0,
+              "email_like_count": 0
+            }
+          }
+        },
+        {
+          "column_name": "course_dt",
+          "data_type": "date",
+          "kind": "datetime",
+          "description": "The course_dt column represents the date of each course taken by staff members, providing valuable insights into the organization's learning history. It stores a date value, which is a key attribute in the learning_records table. This column is commonly used in analytics and business workflows to track learning trends and identify areas of improvement.",
+          "profiling": {
+            "row_count": 1000,
+            "not_null_count": 1000,
+            "null_count": 0,
+            "null_percent": 0.0,
+            "distinct_count": 365,
+            "distinct_percent": 36.5,
+            "duplicate_count": 635,
+            "entropy": 5.643856,
+            "top_values": [
+              {
+                "value": "2025-11-24",
+                "count": 3
+              },
+              {
+                "value": "2025-10-22",
+                "count": 3
+              },
+              {
+                "value": "2025-05-22",
+                "count": 3
+              }
+            ],
+            "sample_values": [
+              "2026-01-21",
+              "2026-01-20",
+              "2026-01-19",
+              "2026-01-18",
+              "2026-01-17",
+              "2026-01-16",
+              "2026-01-15",
+              "2026-01-14",
+              "2026-01-13",
+              "2026-01-12",
+              "2026-01-11",
+              "2026-01-10",
+              "2026-01-09",
+              "2026-01-08",
+              "2026-01-07",
+              "2026-01-06",
+              "2026-01-05",
+              "2026-01-04",
+              "2026-01-03",
+              "2026-01-02"
+            ],
+            "date_stats": {
+              "min_date": "2025-01-23",
+              "max_date": "2026-01-22",
+              "range_days": 364,
+              "weekday_distribution": {
+                "Thursday": 144,
+                "Tuesday": 143,
+                "Wednesday": 143,
+                "Sunday": 143,
+                "Monday": 143,
+                "Saturday": 142,
+                "Friday": 142
+              },
+              "most_common_weekday": "Thursday",
+              "month_distribution": {
+                "5": 93,
+                "10": 93,
+                "7": 93,
+                "8": 93,
+                "12": 93,
+                "11": 90,
+                "6": 90,
+                "9": 90,
+                "1": 83,
+                "4": 64,
+                "3": 62,
+                "2": 56
+              },
+              "most_common_month": 5,
+              "weekend_count": 285
+            }
+          }
+        },
+        {
+          "column_name": "completion_status",
+          "data_type": "character varying",
+          "kind": "text",
+          "description": "The completion_status column represents the completion status of each course taken by staff members, enabling the organization to track learning outcomes and progress. It stores a character varying value, which is a key attribute in the learning_records table. This column is essential for maintaining learning records and facilitating data analysis.",
+          "profiling": {
+            "row_count": 1000,
+            "not_null_count": 1000,
+            "null_count": 0,
+            "null_percent": 0.0,
+            "distinct_count": 2,
+            "distinct_percent": 0.2,
+            "duplicate_count": 998,
+            "entropy": 1.0,
+            "top_values": [
+              {
+                "value": "OPEN",
+                "count": 500
+              },
+              {
+                "value": "DONE",
+                "count": 500
+              }
+            ],
+            "sample_values": [
+              "OPEN",
+              "DONE",
+              "OPEN",
+              "DONE",
+              "OPEN",
+              "DONE",
+              "OPEN",
+              "DONE",
+              "OPEN",
+              "DONE",
+              "OPEN",
+              "DONE",
+              "OPEN",
+              "DONE",
+              "OPEN",
+              "DONE",
+              "OPEN",
+              "DONE",
+              "OPEN",
+              "DONE"
+            ],
+            "text_stats": {
+              "min_length": 4,
+              "max_length": 4,
+              "avg_length": 4.0,
+              "empty_string_count": 0,
+              "digit_only_count": 0,
+              "alpha_only_count": 1000,
+              "alnum_only_count": 1000,
+              "email_like_count": 0
+            }
+          }
+        }
+      ],
+      "edges": [
+        {
+          "fk_table": "learning_records",
+          "fk_column": "staff_fk",
+          "pk_table": "staff",
+          "pk_column": "staff_pk",
+          "confidence": 1.0
+        }
+      ]
+    },
+    {
+      "table_name": "org_units",
+      "description": "The org_units table represents a collection of organizational units within the organization, including their titles, site affiliations, and unit heads. It stores information about the unit's structure, hierarchy, and key personnel, providing valuable insights into the organization's internal dynamics and operations. This table is commonly used in analytics and business workflows to track unit performance, identify areas of improvement, and inform organizational design decisions.",
+      "row_count": 1000,
+      "column_count": 5,
+      "columns": [
+        {
+          "column_name": "unit_pk",
+          "data_type": "integer",
+          "kind": "numeric",
+          "description": "The unit_pk column represents a unique identifier for each organizational unit, enabling the organization to track and manage unit data. It stores an integer value, which is a primary key in the org_units table. This column is crucial for maintaining data integrity and facilitating data analysis.",
+          "profiling": {
+            "row_count": 1000,
+            "not_null_count": 1000,
+            "null_count": 0,
+            "null_percent": 0.0,
+            "distinct_count": 1000,
+            "distinct_percent": 100.0,
+            "duplicate_count": 0,
+            "entropy": 5.643856,
+            "top_values": [
+              {
+                "value": 273,
+                "count": 1
+              },
+              {
+                "value": 51,
+                "count": 1
+              },
+              {
+                "value": 652,
+                "count": 1
+              }
+            ],
+            "sample_values": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20
+            ],
+            "numeric_stats": {
+              "min": 1,
+              "max": 1000,
+              "avg": 500.5,
+              "sum": 500500.0,
+              "stddev": 288.67499025721,
+              "p25": 250.75,
+              "median": 500.5,
+              "p75": 750.25,
+              "iqr": 499.5,
+              "range": 999.0,
+              "zero_count": 0,
+              "negative_count": 0
+            }
+          }
+        },
+        {
+          "column_name": "unit_title",
+          "data_type": "character varying",
+          "kind": "text",
+          "description": "The unit_title column represents the title of each organizational unit, enabling the organization to track unit names and descriptions. It stores a character varying value, which is a key attribute in the org_units table. This column is essential for maintaining unit records and facilitating data analysis.",
+          "profiling": {
+            "row_count": 1000,
+            "not_null_count": 1000,
+            "null_count": 0,
+            "null_percent": 0.0,
+            "distinct_count": 1000,
+            "distinct_percent": 100.0,
+            "duplicate_count": 0,
+            "entropy": 5.643856,
+            "top_values": [
+              {
+                "value": "Unit_133",
+                "count": 1
+              },
+              {
+                "value": "Unit_431",
+                "count": 1
+              },
+              {
+                "value": "Unit_892",
+                "count": 1
+              }
+            ],
+            "sample_values": [
+              "Unit_1",
+              "Unit_2",
+              "Unit_3",
+              "Unit_4",
+              "Unit_5",
+              "Unit_6",
+              "Unit_7",
+              "Unit_8",
+              "Unit_9",
+              "Unit_10",
+              "Unit_11",
+              "Unit_12",
+              "Unit_13",
+              "Unit_14",
+              "Unit_15",
+              "Unit_16",
+              "Unit_17",
+              "Unit_18",
+              "Unit_19",
+              "Unit_20"
+            ],
+            "text_stats": {
+              "min_length": 6,
+              "max_length": 9,
+              "avg_length": 7.893,
+              "empty_string_count": 0,
+              "digit_only_count": 0,
+              "alpha_only_count": 0,
+              "alnum_only_count": 0,
+              "email_like_count": 0
+            }
+          }
+        },
+        {
+          "column_name": "site_fk",
+          "data_type": "integer",
+          "kind": "numeric",
+          "description": "The site_fk column represents the foreign key referencing the site_master table, enabling the organization to link unit records to specific sites. It stores an integer value, which is a foreign key in the org_units table. This column is essential for tracking site-level unit data and making informed decisions.",
+          "profiling": {
+            "row_count": 1000,
+            "not_null_count": 1000,
+            "null_count": 0,
+            "null_percent": 0.0,
+            "distinct_count": 1000,
+            "distinct_percent": 100.0,
+            "duplicate_count": 0,
+            "entropy": 5.643856,
+            "top_values": [
+              {
+                "value": 273,
+                "count": 1
+              },
+              {
+                "value": 51,
+                "count": 1
+              },
+              {
+                "value": 652,
+                "count": 1
+              }
+            ],
+            "sample_values": [
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21
+            ],
+            "numeric_stats": {
+              "min": 1,
+              "max": 1000,
+              "avg": 500.5,
+              "sum": 500500.0,
+              "stddev": 288.67499025721,
+              "p25": 250.75,
+              "median": 500.5,
+              "p75": 750.25,
+              "iqr": 499.5,
+              "range": 999.0,
+              "zero_count": 0,
+              "negative_count": 0
+            }
+          }
+        },
+        {
+          "column_name": "unit_head",
+          "data_type": "character varying",
+          "kind": "text",
+          "description": "The unit_head column represents the head of each organizational unit, enabling the organization to track unit leadership and personnel. It stores a character varying value, which is a key attribute in the org_units table. This column is essential for maintaining unit records and facilitating data analysis.",
+          "profiling": {
+            "row_count": 1000,
+            "not_null_count": 1000,
+            "null_count": 0,
+            "null_percent": 0.0,
+            "distinct_count": 1000,
+            "distinct_percent": 100.0,
+            "duplicate_count": 0,
+            "entropy": 5.643856,
+            "top_values": [
+              {
+                "value": "Head_75",
+                "count": 1
+              },
+              {
+                "value": "Head_30",
+                "count": 1
+              },
+              {
+                "value": "Head_161",
+                "count": 1
+              }
+            ],
+            "sample_values": [
+              "Head_1",
+              "Head_2",
+              "Head_3",
+              "Head_4",
+              "Head_5",
+              "Head_6",
+              "Head_7",
+              "Head_8",
+              "Head_9",
+              "Head_10",
+              "Head_11",
+              "Head_12",
+              "Head_13",
+              "Head_14",
+              "Head_15",
+              "Head_16",
+              "Head_17",
+              "Head_18",
+              "Head_19",
+              "Head_20"
+            ],
+            "text_stats": {
+              "min_length": 6,
+              "max_length": 9,
+              "avg_length": 7.893,
+              "empty_string_count": 0,
+              "digit_only_count": 0,
+              "alpha_only_count": 0,
+              "alnum_only_count": 0,
+              "email_like_count": 0
+            }
+          }
+        },
+        {
+          "column_name": "created_on",
+          "data_type": "timestamp without time zone",
+          "kind": "datetime",
+          "description": "The created_on column represents the date and time when each organizational unit was created, providing valuable insights into the organization's unit history. It stores a timestamp value, which is a key attribute in the org_units table. This column is commonly used in analytics and business workflows to track unit creation trends and identify areas of improvement.",
+          "profiling": {
+            "row_count": 1000,
+            "not_null_count": 1000,
+            "null_count": 0,
+            "null_percent": 0.0,
+            "distinct_count": 1000,
+            "distinct_percent": 100.0,
+            "duplicate_count": 0,
+            "entropy": 5.643856,
+            "top_values": [
+              {
+                "value": "2024-10-31T09:48:33.118704",
+                "count": 1
+              },
+              {
+                "value": "2025-05-08T09:48:33.118704",
+                "count": 1
+              },
+              {
+                "value": "2025-09-02T09:48:33.118704",
+                "count": 1
+              }
+            ],
+            "sample_values": [
+              "2026-01-21T09:48:33.118704",
+              "2026-01-20T09:48:33.118704",
+              "2026-01-19T09:48:33.118704",
+              "2026-01-18T09:48:33.118704",
+              "2026-01-17T09:48:33.118704",
+              "2026-01-16T09:48:33.118704",
+              "2026-01-15T09:48:33.118704",
+              "2026-01-14T09:48:33.118704",
+              "2026-01-13T09:48:33.118704",
+              "2026-01-12T09:48:33.118704",
+              "2026-01-11T09:48:33.118704",
+              "2026-01-10T09:48:33.118704",
+              "2026-01-09T09:48:33.118704",
+              "2026-01-08T09:48:33.118704",
+              "2026-01-07T09:48:33.118704",
+              "2026-01-06T09:48:33.118704",
+              "2026-01-05T09:48:33.118704",
+              "2026-01-04T09:48:33.118704",
+              "2026-01-03T09:48:33.118704",
+              "2026-01-02T09:48:33.118704"
+            ],
+            "date_stats": {
+              "min_date": "2023-04-28T09:48:33.118704",
+              "max_date": "2026-01-21T09:48:33.118704",
+              "range_days": null,
+              "weekday_distribution": {
+                "Monday": 143,
+                "Wednesday": 143,
+                "Friday": 143,
+                "Tuesday": 143,
+                "Saturday": 143,
+                "Sunday": 143,
+                "Thursday": 142
+              },
+              "most_common_weekday": "Monday",
+              "month_distribution": {
+                "8": 93,
+                "10": 93,
+                "7": 93,
+                "12": 93,
+                "5": 93,
+                "6": 90,
+                "9": 90,
+                "11": 90,
+                "1": 83,
+                "4": 63,
+                "3": 62,
+                "2": 57
+              },
+              "most_common_month": 8,
+              "weekend_count": 286
+            }
+          }
+        }
+      ],
+      "edges": [
+        {
+          "fk_table": "org_units",
+          "fk_column": "site_fk",
+          "pk_table": "site_master",
+          "pk_column": "site_pk",
+          "confidence": 1.0
+        }
+      ]
+    },
+    {
+      "table_name": "site_master",
+      "description": "The site_master table represents a collection of site records, including their titles, locations, and affiliations. It stores information about the site's characteristics, such as nation and region, enabling the organization to track site-level data and make informed decisions. This table is typically used in analytics and business workflows to monitor site performance, identify trends, and inform business strategies.",
+      "row_count": 1000,
+      "column_count": 5,
+      "columns": [
+        {
+          "column_name": "site_pk",
+          "data_type": "integer",
+          "kind": "numeric",
+          "description": "The site_pk column represents a unique identifier for each site, enabling the organization to track and manage site data. It stores an integer value, which is a primary key in the site_master table. This column is crucial for maintaining data integrity and facilitating data analysis.",
+          "profiling": {
+            "row_count": 1000,
+            "not_null_count": 1000,
+            "null_count": 0,
+            "null_percent": 0.0,
+            "distinct_count": 1000,
+            "distinct_percent": 100.0,
+            "duplicate_count": 0,
+            "entropy": 5.643856,
+            "top_values": [
+              {
+                "value": 273,
+                "count": 1
+              },
+              {
+                "value": 51,
+                "count": 1
+              },
+              {
+                "value": 652,
+                "count": 1
+              }
+            ],
+            "sample_values": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20
+            ],
+            "numeric_stats": {
+              "min": 1,
+              "max": 1000,
+              "avg": 500.5,
+              "sum": 500500.0,
+              "stddev": 288.67499025721,
+              "p25": 250.75,
+              "median": 500.5,
+              "p75": 750.25,
+              "iqr": 499.5,
+              "range": 999.0,
+              "zero_count": 0,
+              "negative_count": 0
+            }
+          }
+        },
+        {
+          "column_name": "site_title",
+          "data_type": "character varying",
+          "kind": "text",
+          "description": "The site_title column represents the title of each site, enabling the organization to track site names and descriptions. It stores a character varying value, which is a key attribute in the site_master table. This column is essential for maintaining site records and facilitating data analysis.",
+          "profiling": {
+            "row_count": 1000,
+            "not_null_count": 1000,
+            "null_count": 0,
+            "null_percent": 0.0,
+            "distinct_count": 1000,
+            "distinct_percent": 100.0,
+            "duplicate_count": 0,
+            "entropy": 5.643856,
+            "top_values": [
+              {
+                "value": "Site_996",
+                "count": 1
+              },
+              {
+                "value": "Site_666",
+                "count": 1
+              },
+              {
+                "value": "Site_158",
+                "count": 1
+              }
+            ],
+            "sample_values": [
+              "Site_1",
+              "Site_2",
+              "Site_3",
+              "Site_4",
+              "Site_5",
+              "Site_6",
+              "Site_7",
+              "Site_8",
+              "Site_9",
+              "Site_10",
+              "Site_11",
+              "Site_12",
+              "Site_13",
+              "Site_14",
+              "Site_15",
+              "Site_16",
+              "Site_17",
+              "Site_18",
+              "Site_19",
+              "Site_20"
+            ],
+            "text_stats": {
+              "min_length": 6,
+              "max_length": 9,
+              "avg_length": 7.893,
+              "empty_string_count": 0,
+              "digit_only_count": 0,
+              "alpha_only_count": 0,
+              "alnum_only_count": 0,
+              "email_like_count": 0
+            }
+          }
+        },
+        {
+          "column_name": "nation",
+          "data_type": "character varying",
+          "kind": "text",
+          "description": "The nation column represents the nation associated with each site, enabling the organization to track site-level geographic data. It stores a character varying value, which is a key attribute in the site_master table. This column is essential for maintaining site records and facilitating data analysis.",
+          "profiling": {
+            "row_count": 1000,
+            "not_null_count": 1000,
+            "null_count": 0,
+            "null_percent": 0.0,
+            "distinct_count": 1,
+            "distinct_percent": 0.1,
+            "duplicate_count": 999,
+            "entropy": 0.0,
+            "top_values": [
+              {
+                "value": "USA",
+                "count": 1000
+              }
+            ],
+            "sample_values": [
+              "USA",
+              "USA",
+              "USA",
+              "USA",
+              "USA",
+              "USA",
+              "USA",
+              "USA",
+              "USA",
+              "USA",
+              "USA",
+              "USA",
+              "USA",
+              "USA",
+              "USA",
+              "USA",
+              "USA",
+              "USA",
+              "USA",
+              "USA"
+            ],
+            "text_stats": {
+              "min_length": 3,
+              "max_length": 3,
+              "avg_length": 3.0,
+              "empty_string_count": 0,
+              "digit_only_count": 0,
+              "alpha_only_count": 1000,
+              "alnum_only_count": 1000,
+              "email_like_count": 0
+            }
+          }
+        },
+        {
+          "column_name": "region",
+          "data_type": "character varying",
+          "kind": "text",
+          "description": "The region column represents the region associated with each site, enabling the organization to track site-level geographic data. It stores a character varying value, which is a key attribute in the site_master table. This column is essential for maintaining site records and facilitating data analysis.",
+          "profiling": {
+            "row_count": 1000,
+            "not_null_count": 1000,
+            "null_count": 0,
+            "null_percent": 0.0,
+            "distinct_count": 50,
+            "distinct_percent": 5.0,
+            "duplicate_count": 950,
+            "entropy": 5.643856,
+            "top_values": [
+              {
+                "value": "Region_38",
+                "count": 20
+              },
+              {
+                "value": "Region_24",
+                "count": 20
+              },
+              {
+                "value": "Region_15",
+                "count": 20
+              }
+            ],
+            "sample_values": [
+              "Region_1",
+              "Region_2",
+              "Region_3",
+              "Region_4",
+              "Region_5",
+              "Region_6",
+              "Region_7",
+              "Region_8",
+              "Region_9",
+              "Region_10",
+              "Region_11",
+              "Region_12",
+              "Region_13",
+              "Region_14",
+              "Region_15",
+              "Region_16",
+              "Region_17",
+              "Region_18",
+              "Region_19",
+              "Region_20"
+            ],
+            "text_stats": {
+              "min_length": 8,
+              "max_length": 9,
+              "avg_length": 8.8,
+              "empty_string_count": 0,
+              "digit_only_count": 0,
+              "alpha_only_count": 0,
+              "alnum_only_count": 0,
+              "email_like_count": 0
+            }
+          }
+        },
+        {
+          "column_name": "created_on",
+          "data_type": "timestamp without time zone",
+          "kind": "datetime",
+          "description": "The created_on column represents the date and time when each site was created, providing valuable insights into the organization's site history. It stores a timestamp value, which is a key attribute in the site_master table. This column is commonly used in analytics and business workflows to track site creation trends and identify areas of improvement.",
+          "profiling": {
+            "row_count": 1000,
+            "not_null_count": 1000,
+            "null_count": 0,
+            "null_percent": 0.0,
+            "distinct_count": 1000,
+            "distinct_percent": 100.0,
+            "duplicate_count": 0,
+            "entropy": 5.643856,
+            "top_values": [
+              {
+                "value": "2024-02-22T09:48:33.114094",
+                "count": 1
+              },
+              {
+                "value": "2024-12-29T09:48:33.114094",
+                "count": 1
+              },
+              {
+                "value": "2024-09-02T09:48:33.114094",
+                "count": 1
+              }
+            ],
+            "sample_values": [
+              "2026-01-21T09:48:33.114094",
+              "2026-01-20T09:48:33.114094",
+              "2026-01-19T09:48:33.114094",
+              "2026-01-18T09:48:33.114094",
+              "2026-01-17T09:48:33.114094",
+              "2026-01-16T09:48:33.114094",
+              "2026-01-15T09:48:33.114094",
+              "2026-01-14T09:48:33.114094",
+              "2026-01-13T09:48:33.114094",
+              "2026-01-12T09:48:33.114094",
+              "2026-01-11T09:48:33.114094",
+              "2026-01-10T09:48:33.114094",
+              "2026-01-09T09:48:33.114094",
+              "2026-01-08T09:48:33.114094",
+              "2026-01-07T09:48:33.114094",
+              "2026-01-06T09:48:33.114094",
+              "2026-01-05T09:48:33.114094",
+              "2026-01-04T09:48:33.114094",
+              "2026-01-03T09:48:33.114094",
+              "2026-01-02T09:48:33.114094"
+            ],
+            "date_stats": {
+              "min_date": "2023-04-28T09:48:33.114094",
+              "max_date": "2026-01-21T09:48:33.114094",
+              "range_days": null,
+              "weekday_distribution": {
+                "Monday": 143,
+                "Wednesday": 143,
+                "Friday": 143,
+                "Tuesday": 143,
+                "Saturday": 143,
+                "Sunday": 143,
+                "Thursday": 142
+              },
+              "most_common_weekday": "Monday",
+              "month_distribution": {
+                "8": 93,
+                "10": 93,
+                "7": 93,
+                "12": 93,
+                "5": 93,
+                "6": 90,
+                "9": 90,
+                "11": 90,
+                "1": 83,
+                "4": 63,
+                "3": 62,
+                "2": 57
+              },
+              "most_common_month": 8,
+              "weekend_count": 286
+            }
+          }
+        }
+      ],
+      "edges": []
+    },
+    {
+      "table_name": "staff",
+      "description": "The staff table represents a collection of staff records, including their names, roles, and affiliations. It stores information about the staff member's background, skills, and experience, providing valuable insights into the organization's human capital. This table is commonly used in analytics and business workflows to track staff performance, identify talent, and inform talent management strategies.",
+      "row_count": 1000,
+      "column_count": 5,
+      "columns": [
+        {
+          "column_name": "staff_pk",
+          "data_type": "integer",
+          "kind": "numeric",
+          "description": "The staff_pk column represents a unique identifier for each staff member, enabling the organization to track and manage staff data. It stores an integer value, which is a primary key in the staff table. This column is crucial for maintaining data integrity and facilitating data analysis.",
+          "profiling": {
+            "row_count": 1000,
+            "not_null_count": 1000,
+            "null_count": 0,
+            "null_percent": 0.0,
+            "distinct_count": 1000,
+            "distinct_percent": 100.0,
+            "duplicate_count": 0,
+            "entropy": 5.643856,
+            "top_values": [
+              {
+                "value": 273,
+                "count": 1
+              },
+              {
+                "value": 51,
+                "count": 1
+              },
+              {
+                "value": 652,
+                "count": 1
+              }
+            ],
+            "sample_values": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20
+            ],
+            "numeric_stats": {
+              "min": 1,
+              "max": 1000,
+              "avg": 500.5,
+              "sum": 500500.0,
+              "stddev": 288.67499025721,
+              "p25": 250.75,
+              "median": 500.5,
+              "p75": 750.25,
+              "iqr": 499.5,
+              "range": 999.0,
+              "zero_count": 0,
+              "negative_count": 0
+            }
+          }
+        },
+        {
+          "column_name": "staff_fullname",
+          "data_type": "character varying",
+          "kind": "text",
+          "description": "The staff_fullname column represents the full name of each staff member, enabling the organization to track staff names and personnel. It stores a character varying value, which is a key attribute in the staff table. This column is essential for maintaining staff records and facilitating data analysis.",
+          "profiling": {
+            "row_count": 1000,
+            "not_null_count": 1000,
+            "null_count": 0,
+            "null_percent": 0.0,
+            "distinct_count": 1000,
+            "distinct_percent": 100.0,
+            "duplicate_count": 0,
+            "entropy": 5.643856,
+            "top_values": [
+              {
+                "value": "Staff_758",
+                "count": 1
+              },
+              {
+                "value": "Staff_910",
+                "count": 1
+              },
+              {
+                "value": "Staff_619",
+                "count": 1
+              }
+            ],
+            "sample_values": [
+              "Staff_1",
+              "Staff_2",
+              "Staff_3",
+              "Staff_4",
+              "Staff_5",
+              "Staff_6",
+              "Staff_7",
+              "Staff_8",
+              "Staff_9",
+              "Staff_10",
+              "Staff_11",
+              "Staff_12",
+              "Staff_13",
+              "Staff_14",
+              "Staff_15",
+              "Staff_16",
+              "Staff_17",
+              "Staff_18",
+              "Staff_19",
+              "Staff_20"
+            ],
+            "text_stats": {
+              "min_length": 7,
+              "max_length": 10,
+              "avg_length": 8.893,
+              "empty_string_count": 0,
+              "digit_only_count": 0,
+              "alpha_only_count": 0,
+              "alnum_only_count": 0,
+              "email_like_count": 0
+            }
+          }
+        },
+        {
+          "column_name": "unit_fk",
+          "data_type": "integer",
+          "kind": "numeric",
+          "description": "The unit_fk column represents the foreign key referencing the org_units table, enabling the organization to link staff records to specific units. It stores an integer value, which is a foreign key in the staff table. This column is essential for tracking unit-level staff data and making informed decisions.",
+          "profiling": {
+            "row_count": 1000,
+            "not_null_count": 1000,
+            "null_count": 0,
+            "null_percent": 0.0,
+            "distinct_count": 1000,
+            "distinct_percent": 100.0,
+            "duplicate_count": 0,
+            "entropy": 5.643856,
+            "top_values": [
+              {
+                "value": 273,
+                "count": 1
+              },
+              {
+                "value": 51,
+                "count": 1
+              },
+              {
+                "value": 652,
+                "count": 1
+              }
+            ],
+            "sample_values": [
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21
+            ],
+            "numeric_stats": {
+              "min": 1,
+              "max": 1000,
+              "avg": 500.5,
+              "sum": 500500.0,
+              "stddev": 288.67499025721,
+              "p25": 250.75,
+              "median": 500.5,
+              "p75": 750.25,
+              "iqr": 499.5,
+              "range": 999.0,
+              "zero_count": 0,
+              "negative_count": 0
+            }
+          }
+        },
+        {
+          "column_name": "role_name",
+          "data_type": "character varying",
+          "kind": "text",
+          "description": "The role_name column represents the role of each staff member, enabling the organization to track staff roles and responsibilities. It stores a character varying value, which is a key attribute in the staff table. This column is essential for maintaining staff records and facilitating data analysis.",
+          "profiling": {
+            "row_count": 1000,
+            "not_null_count": 1000,
+            "null_count": 0,
+            "null_percent": 0.0,
+            "distinct_count": 20,
+            "distinct_percent": 2.0,
+            "duplicate_count": 980,
+            "entropy": 4.292879,
+            "top_values": [
+              {
+                "value": "Role_6",
+                "count": 50
+              },
+              {
+                "value": "Role_17",
+                "count": 50
+              },
+              {
+                "value": "Role_5",
+                "count": 50
+              }
+            ],
+            "sample_values": [
+              "Role_1",
+              "Role_2",
+              "Role_3",
+              "Role_4",
+              "Role_5",
+              "Role_6",
+              "Role_7",
+              "Role_8",
+              "Role_9",
+              "Role_10",
+              "Role_11",
+              "Role_12",
+              "Role_13",
+              "Role_14",
+              "Role_15",
+              "Role_16",
+              "Role_17",
+              "Role_18",
+              "Role_19",
+              "Role_0"
+            ],
+            "text_stats": {
+              "min_length": 6,
+              "max_length": 7,
+              "avg_length": 6.5,
+              "empty_string_count": 0,
+              "digit_only_count": 0,
+              "alpha_only_count": 0,
+              "alnum_only_count": 0,
+              "email_like_count": 0
+            }
+          }
+        },
+        {
+          "column_name": "joining_date",
+          "data_type": "date",
+          "kind": "datetime",
+          "description": "The joining_date column represents the date when each staff member joined the organization, providing valuable insights into the organization's staff history. It stores a date value, which is a key attribute in the staff table. This column is commonly used in analytics and business workflows to track staff joining trends and identify areas of improvement.",
+          "profiling": {
+            "row_count": 1000,
+            "not_null_count": 1000,
+            "null_count": 0,
+            "null_percent": 0.0,
+            "distinct_count": 1000,
+            "distinct_percent": 100.0,
+            "duplicate_count": 0,
+            "entropy": 5.643856,
+            "top_values": [
+              {
+                "value": "2023-06-08",
+                "count": 1
+              },
+              {
+                "value": "2023-06-10",
+                "count": 1
+              },
+              {
+                "value": "2025-11-24",
+                "count": 1
+              }
+            ],
+            "sample_values": [
+              "2026-01-21",
+              "2026-01-20",
+              "2026-01-19",
+              "2026-01-18",
+              "2026-01-17",
+              "2026-01-16",
+              "2026-01-15",
+              "2026-01-14",
+              "2026-01-13",
+              "2026-01-12",
+              "2026-01-11",
+              "2026-01-10",
+              "2026-01-09",
+              "2026-01-08",
+              "2026-01-07",
+              "2026-01-06",
+              "2026-01-05",
+              "2026-01-04",
+              "2026-01-03",
+              "2026-01-02"
+            ],
+            "date_stats": {
+              "min_date": "2023-04-28",
+              "max_date": "2026-01-21",
+              "range_days": 999,
+              "weekday_distribution": {
+                "Monday": 143,
+                "Wednesday": 143,
+                "Friday": 143,
+                "Tuesday": 143,
+                "Saturday": 143,
+                "Sunday": 143,
+                "Thursday": 142
+              },
+              "most_common_weekday": "Monday",
+              "month_distribution": {
+                "8": 93,
+                "10": 93,
+                "7": 93,
+                "12": 93,
+                "5": 93,
+                "6": 90,
+                "9": 90,
+                "11": 90,
+                "1": 83,
+                "4": 63,
+                "3": 62,
+                "2": 57
+              },
+              "most_common_month": 8,
+              "weekend_count": 286
+            }
+          }
+        }
+      ],
+      "edges": [
+        {
+          "fk_table": "staff",
+          "fk_column": "unit_fk",
+          "pk_table": "org_units",
+          "pk_column": "unit_pk",
+          "confidence": 1.0
+        }
+      ]
+    }
+  ],
+  "relationships": {
+    "relationship_count": 5,
+    "relationship_method": null,
+    "items": [
+      {
+        "fk_table": "audit_checks",
+        "fk_column": "site_fk",
+        "pk_table": "site_master",
+        "pk_column": "site_pk",
+        "confidence": 1.0
+      },
+      {
+        "fk_table": "event_log",
+        "fk_column": "staff_fk",
+        "pk_table": "staff",
+        "pk_column": "staff_pk",
+        "confidence": 1.0
+      },
+      {
+        "fk_table": "learning_records",
+        "fk_column": "staff_fk",
+        "pk_table": "staff",
+        "pk_column": "staff_pk",
+        "confidence": 1.0
+      },
+      {
+        "fk_table": "org_units",
+        "fk_column": "site_fk",
+        "pk_table": "site_master",
+        "pk_column": "site_pk",
+        "confidence": 1.0
+      },
+      {
+        "fk_table": "staff",
+        "fk_column": "unit_fk",
+        "pk_table": "org_units",
+        "pk_column": "unit_pk",
+        "confidence": 1.0
+      }
+    ]
+  }
+}

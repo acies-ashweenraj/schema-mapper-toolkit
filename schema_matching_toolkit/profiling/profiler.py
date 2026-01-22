@@ -57,6 +57,49 @@ def _infer_kind(dtype: str) -> str:
     return "text"
 
 
+def _safe_int(v, default: int = 0) -> int:
+    try:
+        return int(v)
+    except Exception:
+        return default
+
+
+def _run_scalar(conn, sql: str, params: Optional[dict] = None, default=0):
+    """Run a scalar query safely. If it fails, rollback and return default."""
+    try:
+        return conn.execute(text(sql), params or {}).scalar()
+    except Exception:
+        try:
+            conn.rollback()
+        except Exception:
+            pass
+        return default
+
+
+def _run_fetchall(conn, sql: str, params: Optional[dict] = None):
+    """Run a fetchall query safely. If it fails, rollback and return empty list."""
+    try:
+        return conn.execute(text(sql), params or {}).fetchall()
+    except Exception:
+        try:
+            conn.rollback()
+        except Exception:
+            pass
+        return []
+
+
+def _run_first_mapping(conn, sql: str, params: Optional[dict] = None):
+    """Run query and return first row as mapping safely."""
+    try:
+        return conn.execute(text(sql), params or {}).mappings().first()
+    except Exception:
+        try:
+            conn.rollback()
+        except Exception:
+            pass
+        return None
+
+
 # -----------------------------
 # Main Profiling
 # -----------------------------
@@ -87,6 +130,10 @@ def profile_schema(
     }
     """
 
+    # Ensure safe ints
+    sample_size = max(1, _safe_int(sample_size, 500))
+    top_k = max(1, _safe_int(top_k, 10))
+
     engine = _get_engine(cfg)
     schema_name = cfg.schema_name or "public"
 
@@ -95,30 +142,28 @@ def profile_schema(
         schema_data = {"tables": []}
 
         with engine.connect() as conn:
-            tables = conn.execute(
-                text(
-                    """
-                    SELECT table_name
-                    FROM information_schema.tables
-                    WHERE table_schema = :schema
-                    ORDER BY table_name
-                    """
-                ),
+            tables = _run_fetchall(
+                conn,
+                """
+                SELECT table_name
+                FROM information_schema.tables
+                WHERE table_schema = :schema
+                ORDER BY table_name
+                """,
                 {"schema": schema_name},
-            ).fetchall()
+            )
 
             for (tname,) in tables:
-                cols = conn.execute(
-                    text(
-                        """
-                        SELECT column_name, data_type
-                        FROM information_schema.columns
-                        WHERE table_schema = :schema AND table_name = :table
-                        ORDER BY ordinal_position
-                        """
-                    ),
+                cols = _run_fetchall(
+                    conn,
+                    """
+                    SELECT column_name, data_type
+                    FROM information_schema.columns
+                    WHERE table_schema = :schema AND table_name = :table
+                    ORDER BY ordinal_position
+                    """,
                     {"schema": schema_name, "table": tname},
-                ).fetchall()
+                )
 
                 schema_data["tables"].append(
                     {
@@ -136,12 +181,18 @@ def profile_schema(
 
     with engine.connect() as conn:
         for table in schema_data.get("tables", []):
-            table_name = table["table_name"]
+            table_name = table.get("table_name")
+            if not table_name:
+                continue
 
-            # Row count
-            row_count = conn.execute(
-                text(f'SELECT COUNT(*) FROM "{schema_name}"."{table_name}"')
-            ).scalar()
+            # -------------------------
+            # Row count (SAFE)
+            # -------------------------
+            row_count = _run_scalar(
+                conn,
+                f'SELECT COUNT(*) FROM "{schema_name}"."{table_name}"',
+                default=0,
+            )
             row_count = int(row_count or 0)
 
             table_profile: Dict[str, Any] = {
@@ -153,70 +204,71 @@ def profile_schema(
             for col in table.get("columns", []):
                 col_name = col.get("column_name")
                 data_type = col.get("data_type", "")
+                if not col_name:
+                    continue
+
                 kind = _infer_kind(data_type)
 
                 # -------------------------
-                # Base stats
+                # Base stats (SAFE)
                 # -------------------------
-                null_count = conn.execute(
-                    text(
-                        f'''
-                        SELECT COUNT(*)
-                        FROM "{schema_name}"."{table_name}"
-                        WHERE "{col_name}" IS NULL
-                        '''
-                    )
-                ).scalar()
+                null_count = _run_scalar(
+                    conn,
+                    f'''
+                    SELECT COUNT(*)
+                    FROM "{schema_name}"."{table_name}"
+                    WHERE "{col_name}" IS NULL
+                    ''',
+                    default=0,
+                )
                 null_count = int(null_count or 0)
 
                 not_null_count = row_count - null_count
                 null_percent = round((null_count / row_count) * 100, 4) if row_count else 0.0
 
-                distinct_count = conn.execute(
-                    text(
-                        f'''
-                        SELECT COUNT(DISTINCT "{col_name}")
-                        FROM "{schema_name}"."{table_name}"
-                        WHERE "{col_name}" IS NOT NULL
-                        '''
-                    )
-                ).scalar()
+                distinct_count = _run_scalar(
+                    conn,
+                    f'''
+                    SELECT COUNT(DISTINCT "{col_name}")
+                    FROM "{schema_name}"."{table_name}"
+                    WHERE "{col_name}" IS NOT NULL
+                    ''',
+                    default=0,
+                )
                 distinct_count = int(distinct_count or 0)
 
                 distinct_percent = round((distinct_count / row_count) * 100, 4) if row_count else 0.0
                 duplicate_count = max(0, not_null_count - distinct_count)
 
                 # -------------------------
-                # Top values
+                # Top values (SAFE)
                 # -------------------------
-                top_rows = conn.execute(
-                    text(
-                        f'''
-                        SELECT "{col_name}" AS value, COUNT(*) AS count
-                        FROM "{schema_name}"."{table_name}"
-                        WHERE "{col_name}" IS NOT NULL
-                        GROUP BY "{col_name}"
-                        ORDER BY count DESC
-                        LIMIT {top_k}
-                        '''
-                    )
-                ).fetchall()
+                top_rows = _run_fetchall(
+                    conn,
+                    f'''
+                    SELECT "{col_name}" AS value, COUNT(*) AS count
+                    FROM "{schema_name}"."{table_name}"
+                    WHERE "{col_name}" IS NOT NULL
+                    GROUP BY "{col_name}"
+                    ORDER BY count DESC
+                    LIMIT {top_k}
+                    '''
+                )
 
                 top_values = [{"value": _safe_json(r[0]), "count": int(r[1])} for r in top_rows]
 
                 # -------------------------
-                # Sample values
+                # Sample values (SAFE)
                 # -------------------------
-                sample_rows = conn.execute(
-                    text(
-                        f'''
-                        SELECT "{col_name}"
-                        FROM "{schema_name}"."{table_name}"
-                        WHERE "{col_name}" IS NOT NULL
-                        LIMIT {sample_size}
-                        '''
-                    )
-                ).fetchall()
+                sample_rows = _run_fetchall(
+                    conn,
+                    f'''
+                    SELECT "{col_name}"
+                    FROM "{schema_name}"."{table_name}"
+                    WHERE "{col_name}" IS NOT NULL
+                    LIMIT {sample_size}
+                    '''
+                )
 
                 sample_values = [_safe_json(r[0]) for r in sample_rows[:20]]
                 sample_for_entropy = [_safe_json(r[0]) for r in sample_rows[:200]]
@@ -241,121 +293,132 @@ def profile_schema(
                 }
 
                 # -------------------------
-                # NUMERIC METRICS
+                # NUMERIC METRICS (SAFE)
                 # -------------------------
                 if kind == "numeric":
-                    numeric_stats = conn.execute(
-                        text(
-                            f'''
-                            SELECT
-                                MIN("{col_name}") AS min_val,
-                                MAX("{col_name}") AS max_val,
-                                AVG("{col_name}") AS avg_val,
-                                SUM("{col_name}") AS sum_val,
-                                STDDEV_POP("{col_name}") AS stddev_val,
-                                PERCENTILE_CONT(0.25) WITHIN GROUP (ORDER BY "{col_name}") AS p25,
-                                PERCENTILE_CONT(0.50) WITHIN GROUP (ORDER BY "{col_name}") AS median,
-                                PERCENTILE_CONT(0.75) WITHIN GROUP (ORDER BY "{col_name}") AS p75
-                            FROM "{schema_name}"."{table_name}"
-                            WHERE "{col_name}" IS NOT NULL
-                            '''
-                        )
-                    ).mappings().first()
+                    numeric_stats = _run_first_mapping(
+                        conn,
+                        f'''
+                        SELECT
+                            MIN("{col_name}") AS min_val,
+                            MAX("{col_name}") AS max_val,
+                            AVG("{col_name}") AS avg_val,
+                            SUM("{col_name}") AS sum_val,
+                            STDDEV_POP("{col_name}") AS stddev_val,
+                            PERCENTILE_CONT(0.25) WITHIN GROUP (ORDER BY "{col_name}") AS p25,
+                            PERCENTILE_CONT(0.50) WITHIN GROUP (ORDER BY "{col_name}") AS median,
+                            PERCENTILE_CONT(0.75) WITHIN GROUP (ORDER BY "{col_name}") AS p75
+                        FROM "{schema_name}"."{table_name}"
+                        WHERE "{col_name}" IS NOT NULL
+                        '''
+                    )
 
-                    zero_count = conn.execute(
-                        text(
-                            f'''
-                            SELECT COUNT(*)
-                            FROM "{schema_name}"."{table_name}"
-                            WHERE "{col_name}" = 0
-                            '''
-                        )
-                    ).scalar()
+                    zero_count = _run_scalar(
+                        conn,
+                        f'''
+                        SELECT COUNT(*)
+                        FROM "{schema_name}"."{table_name}"
+                        WHERE "{col_name}" = 0
+                        ''',
+                        default=0,
+                    )
 
-                    negative_count = conn.execute(
-                        text(
-                            f'''
-                            SELECT COUNT(*)
-                            FROM "{schema_name}"."{table_name}"
-                            WHERE "{col_name}" < 0
-                            '''
-                        )
-                    ).scalar()
+                    negative_count = _run_scalar(
+                        conn,
+                        f'''
+                        SELECT COUNT(*)
+                        FROM "{schema_name}"."{table_name}"
+                        WHERE "{col_name}" < 0
+                        ''',
+                        default=0,
+                    )
 
-                    numeric_stats_dict = {
-                        "min": _safe_json(numeric_stats["min_val"]),
-                        "max": _safe_json(numeric_stats["max_val"]),
-                        "avg": float(numeric_stats["avg_val"]) if numeric_stats["avg_val"] is not None else None,
-                        "sum": float(numeric_stats["sum_val"]) if numeric_stats["sum_val"] is not None else None,
-                        "stddev": float(numeric_stats["stddev_val"]) if numeric_stats["stddev_val"] is not None else None,
-                        "p25": float(numeric_stats["p25"]) if numeric_stats["p25"] is not None else None,
-                        "median": float(numeric_stats["median"]) if numeric_stats["median"] is not None else None,
-                        "p75": float(numeric_stats["p75"]) if numeric_stats["p75"] is not None else None,
-                        "iqr": (
-                            float(numeric_stats["p75"] - numeric_stats["p25"])
-                            if numeric_stats["p75"] is not None and numeric_stats["p25"] is not None
-                            else None
-                        ),
-                        "range": (
-                            float(numeric_stats["max_val"] - numeric_stats["min_val"])
-                            if numeric_stats["max_val"] is not None and numeric_stats["min_val"] is not None
-                            else None
-                        ),
-                        "zero_count": int(zero_count or 0),
-                        "negative_count": int(negative_count or 0),
-                    }
+                    if numeric_stats:
+                        numeric_stats_dict = {
+                            "min": _safe_json(numeric_stats.get("min_val")),
+                            "max": _safe_json(numeric_stats.get("max_val")),
+                            "avg": float(numeric_stats["avg_val"]) if numeric_stats.get("avg_val") is not None else None,
+                            "sum": float(numeric_stats["sum_val"]) if numeric_stats.get("sum_val") is not None else None,
+                            "stddev": float(numeric_stats["stddev_val"]) if numeric_stats.get("stddev_val") is not None else None,
+                            "p25": float(numeric_stats["p25"]) if numeric_stats.get("p25") is not None else None,
+                            "median": float(numeric_stats["median"]) if numeric_stats.get("median") is not None else None,
+                            "p75": float(numeric_stats["p75"]) if numeric_stats.get("p75") is not None else None,
+                            "iqr": (
+                                float(numeric_stats["p75"] - numeric_stats["p25"])
+                                if numeric_stats.get("p75") is not None and numeric_stats.get("p25") is not None
+                                else None
+                            ),
+                            "range": (
+                                float(numeric_stats["max_val"] - numeric_stats["min_val"])
+                                if numeric_stats.get("max_val") is not None and numeric_stats.get("min_val") is not None
+                                else None
+                            ),
+                            "zero_count": int(zero_count or 0),
+                            "negative_count": int(negative_count or 0),
+                        }
+                    else:
+                        numeric_stats_dict = {
+                            "min": None,
+                            "max": None,
+                            "avg": None,
+                            "sum": None,
+                            "stddev": None,
+                            "p25": None,
+                            "median": None,
+                            "p75": None,
+                            "iqr": None,
+                            "range": None,
+                            "zero_count": int(zero_count or 0),
+                            "negative_count": int(negative_count or 0),
+                        }
 
                     col_profile["numeric_stats"] = numeric_stats_dict
 
                 # -------------------------
-                # DATE/TIME METRICS
+                # DATE/TIME METRICS (SAFE)
                 # -------------------------
                 if kind == "datetime":
-                    date_row = conn.execute(
-                        text(
-                            f'''
-                            SELECT
-                                MIN("{col_name}") AS min_date,
-                                MAX("{col_name}") AS max_date
-                            FROM "{schema_name}"."{table_name}"
-                            WHERE "{col_name}" IS NOT NULL
-                            '''
-                        )
-                    ).mappings().first()
+                    date_row = _run_first_mapping(
+                        conn,
+                        f'''
+                        SELECT
+                            MIN("{col_name}") AS min_date,
+                            MAX("{col_name}") AS max_date
+                        FROM "{schema_name}"."{table_name}"
+                        WHERE "{col_name}" IS NOT NULL
+                        '''
+                    ) or {}
 
-                    min_date = date_row["min_date"]
-                    max_date = date_row["max_date"]
+                    min_date = date_row.get("min_date")
+                    max_date = date_row.get("max_date")
 
                     range_days = None
-                    if min_date and max_date:
-                        try:
-                            range_days = conn.execute(
-                                text(
-                                    f'''
-                                    SELECT (MAX("{col_name}") - MIN("{col_name}"))::int AS range_days
-                                    FROM "{schema_name}"."{table_name}"
-                                    WHERE "{col_name}" IS NOT NULL
-                                    '''
-                                )
-                            ).scalar()
-                        except Exception:
-                            range_days = None
+                    try:
+                        range_days = _run_scalar(
+                            conn,
+                            f'''
+                            SELECT (MAX("{col_name}") - MIN("{col_name}"))::int AS range_days
+                            FROM "{schema_name}"."{table_name}"
+                            WHERE "{col_name}" IS NOT NULL
+                            ''',
+                            default=None,
+                        )
+                    except Exception:
+                        range_days = None
 
-                    # weekday distribution (Postgres)
                     weekday_distribution = {}
                     most_common_weekday = None
                     try:
-                        weekday_rows = conn.execute(
-                            text(
-                                f'''
-                                SELECT EXTRACT(DOW FROM "{col_name}")::int AS dow, COUNT(*) AS count
-                                FROM "{schema_name}"."{table_name}"
-                                WHERE "{col_name}" IS NOT NULL
-                                GROUP BY dow
-                                ORDER BY count DESC
-                                '''
-                            )
-                        ).fetchall()
+                        weekday_rows = _run_fetchall(
+                            conn,
+                            f'''
+                            SELECT EXTRACT(DOW FROM "{col_name}")::int AS dow, COUNT(*) AS count
+                            FROM "{schema_name}"."{table_name}"
+                            WHERE "{col_name}" IS NOT NULL
+                            GROUP BY dow
+                            ORDER BY count DESC
+                            '''
+                        )
 
                         weekday_map = {
                             0: "Sunday",
@@ -367,29 +430,25 @@ def profile_schema(
                             6: "Saturday",
                         }
 
-                        weekday_distribution = {
-                            weekday_map[int(r[0])]: int(r[1]) for r in weekday_rows
-                        }
+                        weekday_distribution = {weekday_map[int(r[0])]: int(r[1]) for r in weekday_rows}
                         if weekday_rows:
                             most_common_weekday = weekday_map[int(weekday_rows[0][0])]
                     except Exception:
                         pass
 
-                    # month distribution
                     month_distribution = {}
                     most_common_month = None
                     try:
-                        month_rows = conn.execute(
-                            text(
-                                f'''
-                                SELECT EXTRACT(MONTH FROM "{col_name}")::int AS month, COUNT(*) AS count
-                                FROM "{schema_name}"."{table_name}"
-                                WHERE "{col_name}" IS NOT NULL
-                                GROUP BY month
-                                ORDER BY count DESC
-                                '''
-                            )
-                        ).fetchall()
+                        month_rows = _run_fetchall(
+                            conn,
+                            f'''
+                            SELECT EXTRACT(MONTH FROM "{col_name}")::int AS month, COUNT(*) AS count
+                            FROM "{schema_name}"."{table_name}"
+                            WHERE "{col_name}" IS NOT NULL
+                            GROUP BY month
+                            ORDER BY count DESC
+                            '''
+                        )
 
                         month_distribution = {int(r[0]): int(r[1]) for r in month_rows}
                         if month_rows:
@@ -397,21 +456,16 @@ def profile_schema(
                     except Exception:
                         pass
 
-                    weekend_count = None
-                    try:
-                        weekend_count = conn.execute(
-                            text(
-                                f'''
-                                SELECT COUNT(*)
-                                FROM "{schema_name}"."{table_name}"
-                                WHERE "{col_name}" IS NOT NULL
-                                  AND EXTRACT(DOW FROM "{col_name}") IN (0, 6)
-                                '''
-                            )
-                        ).scalar()
-                        weekend_count = int(weekend_count or 0)
-                    except Exception:
-                        weekend_count = None
+                    weekend_count = _run_scalar(
+                        conn,
+                        f'''
+                        SELECT COUNT(*)
+                        FROM "{schema_name}"."{table_name}"
+                        WHERE "{col_name}" IS NOT NULL
+                          AND EXTRACT(DOW FROM "{col_name}") IN (0, 6)
+                        ''',
+                        default=None,
+                    )
 
                     col_profile["date_stats"] = {
                         "min_date": _safe_json(min_date),
@@ -421,121 +475,114 @@ def profile_schema(
                         "most_common_weekday": most_common_weekday,
                         "month_distribution": month_distribution,
                         "most_common_month": most_common_month,
-                        "weekend_count": weekend_count,
+                        "weekend_count": int(weekend_count) if weekend_count is not None else None,
                     }
 
                 # -------------------------
-                # TEXT METRICS
+                # TEXT METRICS (SAFE)
                 # -------------------------
                 if kind == "text":
-                    # length stats
-                    len_stats = conn.execute(
-                        text(
-                            f'''
-                            SELECT
-                                MIN(LENGTH(CAST("{col_name}" AS TEXT))) AS min_len,
-                                MAX(LENGTH(CAST("{col_name}" AS TEXT))) AS max_len,
-                                AVG(LENGTH(CAST("{col_name}" AS TEXT))) AS avg_len
-                            FROM "{schema_name}"."{table_name}"
-                            WHERE "{col_name}" IS NOT NULL
-                            '''
-                        )
-                    ).mappings().first()
+                    len_stats = _run_first_mapping(
+                        conn,
+                        f'''
+                        SELECT
+                            MIN(LENGTH(CAST("{col_name}" AS TEXT))) AS min_len,
+                            MAX(LENGTH(CAST("{col_name}" AS TEXT))) AS max_len,
+                            AVG(LENGTH(CAST("{col_name}" AS TEXT))) AS avg_len
+                        FROM "{schema_name}"."{table_name}"
+                        WHERE "{col_name}" IS NOT NULL
+                        '''
+                    ) or {}
 
-                    empty_count = conn.execute(
-                        text(
-                            f'''
-                            SELECT COUNT(*)
-                            FROM "{schema_name}"."{table_name}"
-                            WHERE "{col_name}" IS NOT NULL
-                              AND TRIM(CAST("{col_name}" AS TEXT)) = ''
-                            '''
-                        )
-                    ).scalar()
-                    empty_count = int(empty_count or 0)
+                    empty_count = _run_scalar(
+                        conn,
+                        f'''
+                        SELECT COUNT(*)
+                        FROM "{schema_name}"."{table_name}"
+                        WHERE "{col_name}" IS NOT NULL
+                          AND TRIM(CAST("{col_name}" AS TEXT)) = ''
+                        ''',
+                        default=0,
+                    )
 
-                    # basic pattern counts
-                    digit_only = conn.execute(
-                        text(
-                            f'''
-                            SELECT COUNT(*)
-                            FROM "{schema_name}"."{table_name}"
-                            WHERE "{col_name}" IS NOT NULL
-                              AND CAST("{col_name}" AS TEXT) ~ '^[0-9]+$'
-                            '''
-                        )
-                    ).scalar()
-                    digit_only = int(digit_only or 0)
+                    digit_only = _run_scalar(
+                        conn,
+                        f'''
+                        SELECT COUNT(*)
+                        FROM "{schema_name}"."{table_name}"
+                        WHERE "{col_name}" IS NOT NULL
+                          AND CAST("{col_name}" AS TEXT) ~ '^[0-9]+$'
+                        ''',
+                        default=0,
+                    )
 
-                    alpha_only = conn.execute(
-                        text(
-                            f'''
-                            SELECT COUNT(*)
-                            FROM "{schema_name}"."{table_name}"
-                            WHERE "{col_name}" IS NOT NULL
-                              AND CAST("{col_name}" AS TEXT) ~ '^[A-Za-z]+$'
-                            '''
-                        )
-                    ).scalar()
-                    alpha_only = int(alpha_only or 0)
+                    alpha_only = _run_scalar(
+                        conn,
+                        f'''
+                        SELECT COUNT(*)
+                        FROM "{schema_name}"."{table_name}"
+                        WHERE "{col_name}" IS NOT NULL
+                          AND CAST("{col_name}" AS TEXT) ~ '^[A-Za-z]+$'
+                        ''',
+                        default=0,
+                    )
 
-                    alnum_only = conn.execute(
-                        text(
-                            f'''
-                            SELECT COUNT(*)
-                            FROM "{schema_name}"."{table_name}"
-                            WHERE "{col_name}" IS NOT NULL
-                              AND CAST("{col_name}" AS TEXT) ~ '^[A-Za-z0-9]+$'
-                            '''
-                        )
-                    ).scalar()
-                    alnum_only = int(alnum_only or 0)
+                    alnum_only = _run_scalar(
+                        conn,
+                        f'''
+                        SELECT COUNT(*)
+                        FROM "{schema_name}"."{table_name}"
+                        WHERE "{col_name}" IS NOT NULL
+                          AND CAST("{col_name}" AS TEXT) ~ '^[A-Za-z0-9]+$'
+                        ''',
+                        default=0,
+                    )
 
-                    email_like = conn.execute(
-                        text(
-                            f'''
-                            SELECT COUNT(*)
-                            FROM "{schema_name}"."{table_name}"
-                            WHERE "{col_name}" IS NOT NULL
-                              AND CAST("{col_name}" AS TEXT) ~* '^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{{2,}}$'
-                            '''
-                        )
-                    ).scalar()
-                    email_like = int(email_like or 0)
+                    email_like = _run_scalar(
+                        conn,
+                        f'''
+                        SELECT COUNT(*)
+                        FROM "{schema_name}"."{table_name}"
+                        WHERE "{col_name}" IS NOT NULL
+                          AND CAST("{col_name}" AS TEXT) ~* '^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{{2,}}$'
+                        ''',
+                        default=0,
+                    )
 
                     col_profile["text_stats"] = {
-                        "min_length": int(len_stats["min_len"]) if len_stats["min_len"] is not None else None,
-                        "max_length": int(len_stats["max_len"]) if len_stats["max_len"] is not None else None,
-                        "avg_length": float(len_stats["avg_len"]) if len_stats["avg_len"] is not None else None,
-                        "empty_string_count": empty_count,
-                        "digit_only_count": digit_only,
-                        "alpha_only_count": alpha_only,
-                        "alnum_only_count": alnum_only,
-                        "email_like_count": email_like,
+                        "min_length": int(len_stats.get("min_len")) if len_stats.get("min_len") is not None else None,
+                        "max_length": int(len_stats.get("max_len")) if len_stats.get("max_len") is not None else None,
+                        "avg_length": float(len_stats.get("avg_len")) if len_stats.get("avg_len") is not None else None,
+                        "empty_string_count": int(empty_count or 0),
+                        "digit_only_count": int(digit_only or 0),
+                        "alpha_only_count": int(alpha_only or 0),
+                        "alnum_only_count": int(alnum_only or 0),
+                        "email_like_count": int(email_like or 0),
                     }
 
                 # -------------------------
-                # BOOLEAN METRICS
+                # BOOLEAN METRICS (SAFE)
                 # -------------------------
                 if kind == "boolean":
-                    true_count = conn.execute(
-                        text(
-                            f'''
-                            SELECT COUNT(*)
-                            FROM "{schema_name}"."{table_name}"
-                            WHERE "{col_name}" = TRUE
-                            '''
-                        )
-                    ).scalar()
-                    false_count = conn.execute(
-                        text(
-                            f'''
-                            SELECT COUNT(*)
-                            FROM "{schema_name}"."{table_name}"
-                            WHERE "{col_name}" = FALSE
-                            '''
-                        )
-                    ).scalar()
+                    true_count = _run_scalar(
+                        conn,
+                        f'''
+                        SELECT COUNT(*)
+                        FROM "{schema_name}"."{table_name}"
+                        WHERE "{col_name}" = TRUE
+                        ''',
+                        default=0,
+                    )
+
+                    false_count = _run_scalar(
+                        conn,
+                        f'''
+                        SELECT COUNT(*)
+                        FROM "{schema_name}"."{table_name}"
+                        WHERE "{col_name}" = FALSE
+                        ''',
+                        default=0,
+                    )
 
                     col_profile["boolean_stats"] = {
                         "true_count": int(true_count or 0),

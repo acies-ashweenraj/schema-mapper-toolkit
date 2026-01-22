@@ -7,7 +7,7 @@ def main():
         db_type="postgres",
         host="localhost",
         port=5432,
-        database="GPC",
+        database="ehs_client",
         username="postgres",
         password="ashween29",
         schema_name="public",
