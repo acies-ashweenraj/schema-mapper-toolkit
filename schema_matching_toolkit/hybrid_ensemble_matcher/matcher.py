@@ -177,6 +177,7 @@ def hybrid_ensemble_match(
     top_k_dense: int = 5,
     weights: Optional[Dict[str, float]] = None,
     include_table_matches: bool = True,
+    min_confidence: float = 0.0, 
 ) -> Dict[str, Any]:
     """
     Hybrid Ensemble Matching:
@@ -231,6 +232,13 @@ def hybrid_ensemble_match(
             weights=weights,
         )
 
+        if best_target is None:
+            continue
+
+        # ✅ CONFIDENCE FILTER
+        if best_score < min_confidence:
+            continue
+
         column_matches.append(
             {
                 "source": src,
@@ -240,6 +248,7 @@ def hybrid_ensemble_match(
                 "candidates": ranked_candidates,
             }
         )
+
 
     # Always keep column count available
     out: Dict[str, Any] = {

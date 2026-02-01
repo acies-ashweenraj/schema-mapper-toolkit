@@ -26,6 +26,8 @@ def main():
         qdrant_port=6333,
         groq_cfg=GroqConfig(api_key=""),  # use env variable if needed             # json / csv / xlsx
         top_k_dense=5,
+        output_format = "csv",
+        min_confidence=0.5,
     )
 
     print("Done")

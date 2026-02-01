@@ -6,9 +6,50 @@ from typing import Dict, Any, Optional
 from datetime import datetime
 
 
+# ---------------------------------------------------------
+# Helpers
+# ---------------------------------------------------------
+
 def _timestamp(prefix: str) -> str:
     return datetime.now().strftime(f"{prefix}_%Y%m%d_%H%M%S")
 
+
+def _build_relationship_map(metadata: Dict[str, Any]) -> Dict[str, Dict[str, Any]]:
+    """
+    Maps column -> relationship info
+
+    {
+      "audit_checks.site_fk": {
+          "is_foreign_key": True,
+          "ref_table": "site_master",
+          "ref_column": "site_pk"
+      }
+    }
+    """
+    rmap = {}
+
+    for r in metadata.get("relationships", {}).get("items", []):
+        fk_table = r.get("fk_table")
+        fk_column = r.get("fk_column")
+        pk_table = r.get("pk_table")
+        pk_column = r.get("pk_column")
+
+        if fk_table and fk_column:
+            col_id = f"{fk_table}.{fk_column}"
+            rmap[col_id] = {
+                "is_foreign_key": True,
+                "ref_table": pk_table,
+                "ref_column": pk_column,
+                "relationship_type": "foreign_key",
+            }
+
+    return rmap
+
+
+
+# ---------------------------------------------------------
+# Flatten metadata for CSV / XLSX
+# ---------------------------------------------------------
 
 def _flatten_metadata_to_rows(metadata: Dict[str, Any]) -> list:
     rows = []
@@ -16,11 +57,17 @@ def _flatten_metadata_to_rows(metadata: Dict[str, Any]) -> list:
     db = metadata.get("database", {})
     summary = metadata.get("summary", {})
 
+    # ✅ Build relationship map ONCE
+    relationship_map = _build_relationship_map(metadata)
+
     for t in metadata.get("tables", []):
         table_name = t.get("table_name")
 
         for c in t.get("columns", []):
             prof = c.get("profiling", {}) or {}
+
+            col_id = f"{table_name}.{c.get('column_name')}"
+            rel = relationship_map.get(col_id, {})
 
             rows.append(
                 {
@@ -29,15 +76,26 @@ def _flatten_metadata_to_rows(metadata: Dict[str, Any]) -> list:
                     "port": db.get("port"),
                     "database": db.get("database"),
                     "schema_name": db.get("schema_name"),
+
                     "table_count": summary.get("table_count"),
                     "column_count": summary.get("column_count"),
                     "relationship_count": summary.get("relationship_count"),
+
                     "table_name": table_name,
                     "table_description": t.get("description"),
                     "table_row_count": t.get("row_count"),
+
                     "column_name": c.get("column_name"),
                     "data_type": c.get("data_type"),
                     "kind": c.get("kind"),
+
+                    # ✅ Relationship fields
+                    "is_primary_key": bool(c.get("is_primary_key", False)),
+                    "is_foreign_key": rel.get("is_foreign_key", False),
+                    "ref_table": rel.get("ref_table"),
+                    "ref_column": rel.get("ref_column"),
+                    "relationship_type": rel.get("relationship_type"),
+
                     "column_description": c.get("description"),
                     "row_count": prof.get("row_count"),
                     "not_null_count": prof.get("not_null_count"),
@@ -47,6 +105,7 @@ def _flatten_metadata_to_rows(metadata: Dict[str, Any]) -> list:
                     "distinct_percent": prof.get("distinct_percent"),
                     "duplicate_count": prof.get("duplicate_count"),
                     "entropy": prof.get("entropy"),
+
                     "top_values": json.dumps(prof.get("top_values", []), ensure_ascii=False),
                     "sample_values": json.dumps(prof.get("sample_values", []), ensure_ascii=False),
                     "numeric_stats": json.dumps(prof.get("numeric_stats", {}), ensure_ascii=False),
@@ -58,6 +117,10 @@ def _flatten_metadata_to_rows(metadata: Dict[str, Any]) -> list:
 
     return rows
 
+
+# ---------------------------------------------------------
+# Save metadata output
+# ---------------------------------------------------------
 
 def save_metadata_output(
     metadata: Dict[str, Any],
@@ -84,13 +147,17 @@ def save_metadata_output(
     if folder:
         os.makedirs(folder, exist_ok=True)
 
-    # JSON
+    # --------------------
+    # JSON (unchanged)
+    # --------------------
     if output_format == "json":
         with open(output_path, "w", encoding="utf-8") as f:
             json.dump(metadata, f, indent=2, ensure_ascii=False)
         return output_path
 
+    # --------------------
     # CSV / XLSX
+    # --------------------
     import pandas as pd
 
     rows = _flatten_metadata_to_rows(metadata)

@@ -29,6 +29,7 @@ def run_hybrid_mapping(
     include_table_matches: bool = True,
     output_format: str = "csv",        # ✅ user decides
     output_file: Optional[str] = None, # ✅ optional file name
+    min_confidence: float = 0.7,
 ) -> Dict[str, Any]:
     """
     End-to-end hybrid mapping runner.
@@ -91,6 +92,7 @@ def run_hybrid_mapping(
         top_k_dense=top_k_dense,
         weights=weights,
         include_table_matches=include_table_matches,
+        min_confidence=min_confidence,
     )
 
     # save output file

@@ -1,0 +1,1552 @@
+{
+  "column_match_count": 22,
+  "table_match_count": 5,
+  "tables": [
+    {
+      "source_table": "tbl_pay_comp_hist",
+      "best_match_table": "inventory_weekly",
+      "confidence": 0.83,
+      "column_match_count": 5,
+      "column_matches": [
+        {
+          "source": "tbl_pay_comp_hist.cmp_evt_id",
+          "best_match": "inventory_weekly.hq_ln_abbr_cd",
+          "confidence": 0.7066,
+          "match_source": "ensemble",
+          "candidates": [
+            {
+              "candidate": "inventory_weekly.hq_ln_abbr_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 0.9623,
+              "mpnet_score": 0.9245,
+              "final_score": 0.7066
+            },
+            {
+              "candidate": "inventory_weekly.curr_ownshp_typ_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 1.0,
+              "final_score": 0.4
+            },
+            {
+              "candidate": "inventory_weekly.top5_impressions",
+              "bm25_score": 0.0,
+              "minilm_score": 1.0,
+              "mpnet_score": 0.0,
+              "final_score": 0.35
+            },
+            {
+              "candidate": "inventory_weekly.min_stk_lvl_qty",
+              "bm25_score": 0.0,
+              "minilm_score": 0.9937,
+              "mpnet_score": 0.0,
+              "final_score": 0.3478
+            },
+            {
+              "candidate": "inventory_weekly.max_stk_lvl_qty",
+              "bm25_score": 0.0,
+              "minilm_score": 0.9636,
+              "mpnet_score": 0.0,
+              "final_score": 0.3373
+            },
+            {
+              "candidate": "inventory_weekly.lvl_3_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.841,
+              "final_score": 0.3364
+            },
+            {
+              "candidate": "inventory_weekly.store_id",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.8316,
+              "final_score": 0.3327
+            },
+            {
+              "candidate": "inventory_weekly.fld_ln_abbr_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.8312,
+              "final_score": 0.3325
+            },
+            {
+              "candidate": "inventory_weekly.totals_impressions",
+              "bm25_score": 0.0,
+              "minilm_score": 0.9368,
+              "mpnet_score": 0.0,
+              "final_score": 0.3279
+            },
+            {
+              "candidate": "inventory_weekly.units",
+              "bm25_score": 1.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.0,
+              "final_score": 0.25
+            }
+          ]
+        },
+        {
+          "source": "tbl_pay_comp_hist.emp_bnf_ref",
+          "best_match": "inventory_weekly.hq_ln_abbr_cd",
+          "confidence": 0.75,
+          "match_source": "ensemble",
+          "candidates": [
+            {
+              "candidate": "inventory_weekly.hq_ln_abbr_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 1.0,
+              "mpnet_score": 1.0,
+              "final_score": 0.75
+            },
+            {
+              "candidate": "inventory_weekly.lvl_2_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 0.8657,
+              "mpnet_score": 0.9654,
+              "final_score": 0.6892
+            },
+            {
+              "candidate": "inventory_weekly.lvl_3_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.9677,
+              "final_score": 0.3871
+            },
+            {
+              "candidate": "inventory_weekly.lvl_1_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.9434,
+              "final_score": 0.3774
+            },
+            {
+              "candidate": "inventory_weekly.lvl_4_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.9294,
+              "final_score": 0.3718
+            },
+            {
+              "candidate": "inventory_weekly.fld_ln_abbr_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 0.9322,
+              "mpnet_score": 0.0,
+              "final_score": 0.3263
+            },
+            {
+              "candidate": "inventory_weekly.top5_impressions",
+              "bm25_score": 0.0,
+              "minilm_score": 0.9189,
+              "mpnet_score": 0.0,
+              "final_score": 0.3216
+            },
+            {
+              "candidate": "inventory_weekly.min_stk_lvl_qty",
+              "bm25_score": 0.0,
+              "minilm_score": 0.8822,
+              "mpnet_score": 0.0,
+              "final_score": 0.3088
+            },
+            {
+              "candidate": "inventory_weekly.units",
+              "bm25_score": 1.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.0,
+              "final_score": 0.25
+            }
+          ]
+        },
+        {
+          "source": "tbl_pay_comp_hist.amt_val_num",
+          "best_match": "inventory_weekly.revenue",
+          "confidence": 0.9856,
+          "match_source": "ensemble",
+          "candidates": [
+            {
+              "candidate": "inventory_weekly.revenue",
+              "bm25_score": 1.0,
+              "minilm_score": 1.0,
+              "mpnet_score": 0.964,
+              "final_score": 0.9856
+            },
+            {
+              "candidate": "inventory_weekly.asp",
+              "bm25_score": 0.0,
+              "minilm_score": 0.9994,
+              "mpnet_score": 1.0,
+              "final_score": 0.7498
+            },
+            {
+              "candidate": "inventory_weekly.curr_ownshp_typ_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.9794,
+              "final_score": 0.3918
+            },
+            {
+              "candidate": "inventory_weekly.hq_ln_abbr_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.9672,
+              "final_score": 0.3869
+            },
+            {
+              "candidate": "inventory_weekly.lvl_3_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.962,
+              "final_score": 0.3848
+            },
+            {
+              "candidate": "inventory_weekly.lost_units",
+              "bm25_score": 0.0,
+              "minilm_score": 0.9872,
+              "mpnet_score": 0.0,
+              "final_score": 0.3455
+            },
+            {
+              "candidate": "inventory_weekly.fld_ln_abbr_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 0.9562,
+              "mpnet_score": 0.0,
+              "final_score": 0.3347
+            },
+            {
+              "candidate": "inventory_weekly.top5_impressions",
+              "bm25_score": 0.0,
+              "minilm_score": 0.9086,
+              "mpnet_score": 0.0,
+              "final_score": 0.318
+            }
+          ]
+        },
+        {
+          "source": "tbl_pay_comp_hist.curr_iso_cd",
+          "best_match": "inventory_weekly.curr_ownshp_typ_cd",
+          "confidence": 0.75,
+          "match_source": "ensemble",
+          "candidates": [
+            {
+              "candidate": "inventory_weekly.curr_ownshp_typ_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 1.0,
+              "mpnet_score": 1.0,
+              "final_score": 0.75
+            },
+            {
+              "candidate": "inventory_weekly.hq_ln_abbr_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 0.9112,
+              "mpnet_score": 0.9331,
+              "final_score": 0.6922
+            },
+            {
+              "candidate": "inventory_weekly.curr_dc_nm",
+              "bm25_score": 0.0,
+              "minilm_score": 0.8706,
+              "mpnet_score": 0.9601,
+              "final_score": 0.6888
+            },
+            {
+              "candidate": "inventory_weekly.curr_div_nm",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.9296,
+              "final_score": 0.3718
+            },
+            {
+              "candidate": "inventory_weekly.curr_loc_num",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.9104,
+              "final_score": 0.3642
+            },
+            {
+              "candidate": "inventory_weekly.fld_ln_abbr_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 0.9827,
+              "mpnet_score": 0.0,
+              "final_score": 0.3439
+            },
+            {
+              "candidate": "inventory_weekly.lvl_1_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 0.8651,
+              "mpnet_score": 0.0,
+              "final_score": 0.3028
+            },
+            {
+              "candidate": "inventory_weekly.week_datetime",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.0,
+              "final_score": 0.0
+            }
+          ]
+        },
+        {
+          "source": "tbl_pay_comp_hist.dt_eff_from",
+          "best_match": "inventory_weekly.week_datetime",
+          "confidence": 0.9579,
+          "match_source": "ensemble",
+          "candidates": [
+            {
+              "candidate": "inventory_weekly.week_datetime",
+              "bm25_score": 1.0,
+              "minilm_score": 0.8797,
+              "mpnet_score": 1.0,
+              "final_score": 0.9579
+            },
+            {
+              "candidate": "inventory_weekly.lvl_2_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 0.9873,
+              "mpnet_score": 0.9595,
+              "final_score": 0.7293
+            },
+            {
+              "candidate": "inventory_weekly.lvl_3_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 0.9822,
+              "mpnet_score": 0.9627,
+              "final_score": 0.7289
+            },
+            {
+              "candidate": "inventory_weekly.curr_ownshp_typ_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.9699,
+              "final_score": 0.388
+            },
+            {
+              "candidate": "inventory_weekly.hq_ln_abbr_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.9477,
+              "final_score": 0.3791
+            },
+            {
+              "candidate": "inventory_weekly.lvl_1_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 1.0,
+              "mpnet_score": 0.0,
+              "final_score": 0.35
+            },
+            {
+              "candidate": "inventory_weekly.lvl_4_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 0.9836,
+              "mpnet_score": 0.0,
+              "final_score": 0.3443
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "source_table": "tbl_emp_prj_xref",
+      "best_match_table": "inventory_weekly",
+      "confidence": 0.7407,
+      "column_match_count": 4,
+      "column_matches": [
+        {
+          "source": "tbl_emp_prj_xref.emp_prj_map_id",
+          "best_match": "inventory_weekly.hq_ln_abbr_cd",
+          "confidence": 0.7275,
+          "match_source": "ensemble",
+          "candidates": [
+            {
+              "candidate": "inventory_weekly.hq_ln_abbr_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 0.9804,
+              "mpnet_score": 0.961,
+              "final_score": 0.7275
+            },
+            {
+              "candidate": "inventory_weekly.curr_ownshp_typ_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 1.0,
+              "final_score": 0.4
+            },
+            {
+              "candidate": "inventory_weekly.store_id",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.9773,
+              "final_score": 0.3909
+            },
+            {
+              "candidate": "inventory_weekly.curr_loc_num",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.9214,
+              "final_score": 0.3686
+            },
+            {
+              "candidate": "inventory_weekly.fld_ln_abbr_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.9161,
+              "final_score": 0.3664
+            },
+            {
+              "candidate": "inventory_weekly.min_stk_lvl_qty",
+              "bm25_score": 0.0,
+              "minilm_score": 1.0,
+              "mpnet_score": 0.0,
+              "final_score": 0.35
+            },
+            {
+              "candidate": "inventory_weekly.top5_impressions",
+              "bm25_score": 0.0,
+              "minilm_score": 0.9673,
+              "mpnet_score": 0.0,
+              "final_score": 0.3386
+            },
+            {
+              "candidate": "inventory_weekly.oos_impressions",
+              "bm25_score": 0.0,
+              "minilm_score": 0.9457,
+              "mpnet_score": 0.0,
+              "final_score": 0.331
+            },
+            {
+              "candidate": "inventory_weekly.max_stk_lvl_qty",
+              "bm25_score": 0.0,
+              "minilm_score": 0.9221,
+              "mpnet_score": 0.0,
+              "final_score": 0.3227
+            },
+            {
+              "candidate": "inventory_weekly.units",
+              "bm25_score": 1.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.0,
+              "final_score": 0.25
+            }
+          ]
+        },
+        {
+          "source": "tbl_emp_prj_xref.emp_ref_key",
+          "best_match": "inventory_weekly.hq_ln_abbr_cd",
+          "confidence": 0.7496,
+          "match_source": "ensemble",
+          "candidates": [
+            {
+              "candidate": "inventory_weekly.hq_ln_abbr_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 1.0,
+              "mpnet_score": 0.999,
+              "final_score": 0.7496
+            },
+            {
+              "candidate": "inventory_weekly.lvl_2_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 0.9284,
+              "mpnet_score": 0.9991,
+              "final_score": 0.7246
+            },
+            {
+              "candidate": "inventory_weekly.lvl_1_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 0.9335,
+              "mpnet_score": 0.9795,
+              "final_score": 0.7185
+            },
+            {
+              "candidate": "inventory_weekly.curr_ownshp_typ_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 1.0,
+              "final_score": 0.4
+            },
+            {
+              "candidate": "inventory_weekly.lvl_3_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.9985,
+              "final_score": 0.3994
+            },
+            {
+              "candidate": "inventory_weekly.fld_ln_abbr_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 0.9578,
+              "mpnet_score": 0.0,
+              "final_score": 0.3352
+            },
+            {
+              "candidate": "inventory_weekly.min_stk_lvl_qty",
+              "bm25_score": 0.0,
+              "minilm_score": 0.944,
+              "mpnet_score": 0.0,
+              "final_score": 0.3304
+            },
+            {
+              "candidate": "inventory_weekly.units",
+              "bm25_score": 1.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.0,
+              "final_score": 0.25
+            }
+          ]
+        },
+        {
+          "source": "tbl_emp_prj_xref.prj_ref_key",
+          "best_match": "inventory_weekly.hq_ln_abbr_cd",
+          "confidence": 0.7359,
+          "match_source": "ensemble",
+          "candidates": [
+            {
+              "candidate": "inventory_weekly.hq_ln_abbr_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 0.9882,
+              "mpnet_score": 0.975,
+              "final_score": 0.7359
+            },
+            {
+              "candidate": "inventory_weekly.fld_ln_abbr_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 0.9162,
+              "mpnet_score": 0.9421,
+              "final_score": 0.6975
+            },
+            {
+              "candidate": "inventory_weekly.curr_ownshp_typ_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 1.0,
+              "final_score": 0.4
+            },
+            {
+              "candidate": "inventory_weekly.curr_loc_num",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.9476,
+              "final_score": 0.379
+            },
+            {
+              "candidate": "inventory_weekly.lvl_2_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.9355,
+              "final_score": 0.3742
+            },
+            {
+              "candidate": "inventory_weekly.min_stk_lvl_qty",
+              "bm25_score": 0.0,
+              "minilm_score": 1.0,
+              "mpnet_score": 0.0,
+              "final_score": 0.35
+            },
+            {
+              "candidate": "inventory_weekly.max_stk_lvl_qty",
+              "bm25_score": 0.0,
+              "minilm_score": 0.9393,
+              "mpnet_score": 0.0,
+              "final_score": 0.3288
+            },
+            {
+              "candidate": "inventory_weekly.top5_impressions",
+              "bm25_score": 0.0,
+              "minilm_score": 0.8938,
+              "mpnet_score": 0.0,
+              "final_score": 0.3128
+            },
+            {
+              "candidate": "inventory_weekly.units",
+              "bm25_score": 1.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.0,
+              "final_score": 0.25
+            }
+          ]
+        },
+        {
+          "source": "tbl_emp_prj_xref.asg_role_cd",
+          "best_match": "inventory_weekly.curr_ownshp_typ_cd",
+          "confidence": 0.7499,
+          "match_source": "ensemble",
+          "candidates": [
+            {
+              "candidate": "inventory_weekly.curr_ownshp_typ_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 0.9998,
+              "mpnet_score": 1.0,
+              "final_score": 0.7499
+            },
+            {
+              "candidate": "inventory_weekly.hq_ln_abbr_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 1.0,
+              "mpnet_score": 0.8979,
+              "final_score": 0.7092
+            },
+            {
+              "candidate": "inventory_weekly.lvl_2_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 0.898,
+              "mpnet_score": 0.8644,
+              "final_score": 0.6601
+            },
+            {
+              "candidate": "inventory_weekly.lvl_1_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 0.898,
+              "mpnet_score": 0.858,
+              "final_score": 0.6575
+            },
+            {
+              "candidate": "inventory_weekly.lvl_4_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.8683,
+              "final_score": 0.3473
+            },
+            {
+              "candidate": "inventory_weekly.fld_ln_abbr_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 0.9588,
+              "mpnet_score": 0.0,
+              "final_score": 0.3356
+            },
+            {
+              "candidate": "inventory_weekly.week_datetime",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.0,
+              "final_score": 0.0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "source_table": "tbl_emp_core_dtls",
+      "best_match_table": "inventory_weekly",
+      "confidence": 0.7244,
+      "column_match_count": 6,
+      "column_matches": [
+        {
+          "source": "tbl_emp_core_dtls.emp_unq_ref",
+          "best_match": "inventory_weekly.hq_ln_abbr_cd",
+          "confidence": 0.75,
+          "match_source": "ensemble",
+          "candidates": [
+            {
+              "candidate": "inventory_weekly.hq_ln_abbr_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 1.0,
+              "mpnet_score": 1.0,
+              "final_score": 0.75
+            },
+            {
+              "candidate": "inventory_weekly.fld_ln_abbr_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 0.947,
+              "mpnet_score": 0.9488,
+              "final_score": 0.711
+            },
+            {
+              "candidate": "inventory_weekly.units",
+              "bm25_score": 1.0,
+              "minilm_score": 0.9258,
+              "mpnet_score": 0.0,
+              "final_score": 0.574
+            },
+            {
+              "candidate": "inventory_weekly.lvl_3_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.9263,
+              "final_score": 0.3705
+            },
+            {
+              "candidate": "inventory_weekly.curr_ownshp_typ_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.9219,
+              "final_score": 0.3688
+            },
+            {
+              "candidate": "inventory_weekly.lvl_2_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.9199,
+              "final_score": 0.3679
+            },
+            {
+              "candidate": "inventory_weekly.top5_impressions",
+              "bm25_score": 0.0,
+              "minilm_score": 0.9629,
+              "mpnet_score": 0.0,
+              "final_score": 0.337
+            },
+            {
+              "candidate": "inventory_weekly.min_stk_lvl_qty",
+              "bm25_score": 0.0,
+              "minilm_score": 0.9233,
+              "mpnet_score": 0.0,
+              "final_score": 0.3232
+            }
+          ]
+        },
+        {
+          "source": "tbl_emp_core_dtls.emp_fn_nm",
+          "best_match": "inventory_weekly.lvl_2_hrchy_desc",
+          "confidence": 0.7061,
+          "match_source": "ensemble",
+          "candidates": [
+            {
+              "candidate": "inventory_weekly.lvl_2_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 0.9641,
+              "mpnet_score": 0.9217,
+              "final_score": 0.7061
+            },
+            {
+              "candidate": "inventory_weekly.fld_ln_abbr_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 1.0,
+              "final_score": 0.4
+            },
+            {
+              "candidate": "inventory_weekly.hq_ln_abbr_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.9849,
+              "final_score": 0.3939
+            },
+            {
+              "candidate": "inventory_weekly.curr_ownshp_typ_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.9303,
+              "final_score": 0.3721
+            },
+            {
+              "candidate": "inventory_weekly.curr_div_nm",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.927,
+              "final_score": 0.3708
+            },
+            {
+              "candidate": "inventory_weekly.lvl_1_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 1.0,
+              "mpnet_score": 0.0,
+              "final_score": 0.35
+            },
+            {
+              "candidate": "inventory_weekly.lvl_4_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 0.9703,
+              "mpnet_score": 0.0,
+              "final_score": 0.3396
+            },
+            {
+              "candidate": "inventory_weekly.lvl_3_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 0.9524,
+              "mpnet_score": 0.0,
+              "final_score": 0.3334
+            },
+            {
+              "candidate": "inventory_weekly.curr_dc_nm",
+              "bm25_score": 0.0,
+              "minilm_score": 0.8367,
+              "mpnet_score": 0.0,
+              "final_score": 0.2928
+            },
+            {
+              "candidate": "inventory_weekly.week_datetime",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.0,
+              "final_score": 0.0
+            }
+          ]
+        },
+        {
+          "source": "tbl_emp_core_dtls.emp_ln_nm",
+          "best_match": "inventory_weekly.lvl_2_hrchy_desc",
+          "confidence": 0.71,
+          "match_source": "ensemble",
+          "candidates": [
+            {
+              "candidate": "inventory_weekly.lvl_2_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 0.9797,
+              "mpnet_score": 0.9177,
+              "final_score": 0.71
+            },
+            {
+              "candidate": "inventory_weekly.lvl_3_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 0.9716,
+              "mpnet_score": 0.9158,
+              "final_score": 0.7064
+            },
+            {
+              "candidate": "inventory_weekly.hq_ln_abbr_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 1.0,
+              "final_score": 0.4
+            },
+            {
+              "candidate": "inventory_weekly.fld_ln_abbr_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.9787,
+              "final_score": 0.3915
+            },
+            {
+              "candidate": "inventory_weekly.curr_div_nm",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.9207,
+              "final_score": 0.3683
+            },
+            {
+              "candidate": "inventory_weekly.lvl_1_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 1.0,
+              "mpnet_score": 0.0,
+              "final_score": 0.35
+            },
+            {
+              "candidate": "inventory_weekly.lvl_4_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 0.9997,
+              "mpnet_score": 0.0,
+              "final_score": 0.3499
+            },
+            {
+              "candidate": "inventory_weekly.curr_dc_nm",
+              "bm25_score": 0.0,
+              "minilm_score": 0.8064,
+              "mpnet_score": 0.0,
+              "final_score": 0.2823
+            },
+            {
+              "candidate": "inventory_weekly.week_datetime",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.0,
+              "final_score": 0.0
+            }
+          ]
+        },
+        {
+          "source": "tbl_emp_core_dtls.wrk_email_addr",
+          "best_match": "inventory_weekly.lvl_2_hrchy_desc",
+          "confidence": 0.7275,
+          "match_source": "ensemble",
+          "candidates": [
+            {
+              "candidate": "inventory_weekly.lvl_2_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 0.9969,
+              "mpnet_score": 0.9466,
+              "final_score": 0.7275
+            },
+            {
+              "candidate": "inventory_weekly.hq_ln_abbr_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 0.7694,
+              "mpnet_score": 1.0,
+              "final_score": 0.6693
+            },
+            {
+              "candidate": "inventory_weekly.fld_ln_abbr_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.9814,
+              "final_score": 0.3926
+            },
+            {
+              "candidate": "inventory_weekly.curr_ownshp_typ_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.9728,
+              "final_score": 0.3891
+            },
+            {
+              "candidate": "inventory_weekly.curr_loc_num",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.9539,
+              "final_score": 0.3816
+            },
+            {
+              "candidate": "inventory_weekly.lvl_1_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 1.0,
+              "mpnet_score": 0.0,
+              "final_score": 0.35
+            },
+            {
+              "candidate": "inventory_weekly.lvl_4_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 0.9946,
+              "mpnet_score": 0.0,
+              "final_score": 0.3481
+            },
+            {
+              "candidate": "inventory_weekly.lvl_3_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 0.9568,
+              "mpnet_score": 0.0,
+              "final_score": 0.3349
+            },
+            {
+              "candidate": "inventory_weekly.week_datetime",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.0,
+              "final_score": 0.0
+            }
+          ]
+        },
+        {
+          "source": "tbl_emp_core_dtls.dt_hire_eff",
+          "best_match": "inventory_weekly.lvl_1_hrchy_desc",
+          "confidence": 0.7027,
+          "match_source": "ensemble",
+          "candidates": [
+            {
+              "candidate": "inventory_weekly.lvl_1_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 1.0,
+              "mpnet_score": 0.8817,
+              "final_score": 0.7027
+            },
+            {
+              "candidate": "inventory_weekly.lvl_2_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 0.9792,
+              "mpnet_score": 0.8944,
+              "final_score": 0.7005
+            },
+            {
+              "candidate": "inventory_weekly.lvl_3_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 0.9588,
+              "mpnet_score": 0.9046,
+              "final_score": 0.6974
+            },
+            {
+              "candidate": "inventory_weekly.lvl_4_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 0.9889,
+              "mpnet_score": 0.866,
+              "final_score": 0.6925
+            },
+            {
+              "candidate": "inventory_weekly.week_datetime",
+              "bm25_score": 1.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 1.0,
+              "final_score": 0.65
+            },
+            {
+              "candidate": "inventory_weekly.fld_ln_abbr_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 0.8737,
+              "mpnet_score": 0.0,
+              "final_score": 0.3058
+            }
+          ]
+        },
+        {
+          "source": "tbl_emp_core_dtls.dept_fk_ref",
+          "best_match": "inventory_weekly.hq_ln_abbr_cd",
+          "confidence": 0.75,
+          "match_source": "ensemble",
+          "candidates": [
+            {
+              "candidate": "inventory_weekly.hq_ln_abbr_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 1.0,
+              "mpnet_score": 1.0,
+              "final_score": 0.75
+            },
+            {
+              "candidate": "inventory_weekly.lvl_2_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 0.7404,
+              "mpnet_score": 0.9199,
+              "final_score": 0.6271
+            },
+            {
+              "candidate": "inventory_weekly.lvl_1_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 0.7424,
+              "mpnet_score": 0.9138,
+              "final_score": 0.6254
+            },
+            {
+              "candidate": "inventory_weekly.lvl_3_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.9187,
+              "final_score": 0.3675
+            },
+            {
+              "candidate": "inventory_weekly.lvl_4_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.8948,
+              "final_score": 0.3579
+            },
+            {
+              "candidate": "inventory_weekly.fld_ln_abbr_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 0.9958,
+              "mpnet_score": 0.0,
+              "final_score": 0.3485
+            },
+            {
+              "candidate": "inventory_weekly.store_id",
+              "bm25_score": 0.0,
+              "minilm_score": 0.7387,
+              "mpnet_score": 0.0,
+              "final_score": 0.2585
+            },
+            {
+              "candidate": "inventory_weekly.units",
+              "bm25_score": 1.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.0,
+              "final_score": 0.25
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "source_table": "tbl_dept_master",
+      "best_match_table": "inventory_weekly",
+      "confidence": 0.7195,
+      "column_match_count": 3,
+      "column_matches": [
+        {
+          "source": "tbl_dept_master.dept_pk_id",
+          "best_match": "inventory_weekly.hq_ln_abbr_cd",
+          "confidence": 0.75,
+          "match_source": "ensemble",
+          "candidates": [
+            {
+              "candidate": "inventory_weekly.hq_ln_abbr_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 1.0,
+              "mpnet_score": 1.0,
+              "final_score": 0.75
+            },
+            {
+              "candidate": "inventory_weekly.store_id",
+              "bm25_score": 0.0,
+              "minilm_score": 0.8534,
+              "mpnet_score": 0.9956,
+              "final_score": 0.6969
+            },
+            {
+              "candidate": "inventory_weekly.units",
+              "bm25_score": 1.0,
+              "minilm_score": 0.7868,
+              "mpnet_score": 0.0,
+              "final_score": 0.5254
+            },
+            {
+              "candidate": "inventory_weekly.lvl_3_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.9197,
+              "final_score": 0.3679
+            },
+            {
+              "candidate": "inventory_weekly.lvl_1_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.9144,
+              "final_score": 0.3658
+            },
+            {
+              "candidate": "inventory_weekly.lvl_2_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.9093,
+              "final_score": 0.3637
+            },
+            {
+              "candidate": "inventory_weekly.fld_ln_abbr_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 0.9351,
+              "mpnet_score": 0.0,
+              "final_score": 0.3273
+            },
+            {
+              "candidate": "inventory_weekly.min_stk_lvl_qty",
+              "bm25_score": 0.0,
+              "minilm_score": 0.7939,
+              "mpnet_score": 0.0,
+              "final_score": 0.2779
+            }
+          ]
+        },
+        {
+          "source": "tbl_dept_master.dept_nm_txt",
+          "best_match": "inventory_weekly.lvl_2_hrchy_desc",
+          "confidence": 0.676,
+          "match_source": "ensemble",
+          "candidates": [
+            {
+              "candidate": "inventory_weekly.lvl_2_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 0.8834,
+              "mpnet_score": 0.9169,
+              "final_score": 0.676
+            },
+            {
+              "candidate": "inventory_weekly.lvl_1_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 0.8829,
+              "mpnet_score": 0.9143,
+              "final_score": 0.6747
+            },
+            {
+              "candidate": "inventory_weekly.hq_ln_abbr_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 1.0,
+              "final_score": 0.4
+            },
+            {
+              "candidate": "inventory_weekly.curr_div_nm",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.9324,
+              "final_score": 0.373
+            },
+            {
+              "candidate": "inventory_weekly.lvl_3_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.9168,
+              "final_score": 0.3667
+            },
+            {
+              "candidate": "inventory_weekly.curr_dc_nm",
+              "bm25_score": 0.0,
+              "minilm_score": 1.0,
+              "mpnet_score": 0.0,
+              "final_score": 0.35
+            },
+            {
+              "candidate": "inventory_weekly.curr_ownshp_typ_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 0.8988,
+              "mpnet_score": 0.0,
+              "final_score": 0.3146
+            },
+            {
+              "candidate": "inventory_weekly.lvl_4_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 0.8959,
+              "mpnet_score": 0.0,
+              "final_score": 0.3136
+            },
+            {
+              "candidate": "inventory_weekly.week_datetime",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.0,
+              "final_score": 0.0
+            }
+          ]
+        },
+        {
+          "source": "tbl_dept_master.loc_ref_cd",
+          "best_match": "inventory_weekly.hq_ln_abbr_cd",
+          "confidence": 0.7325,
+          "match_source": "ensemble",
+          "candidates": [
+            {
+              "candidate": "inventory_weekly.hq_ln_abbr_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 0.9499,
+              "mpnet_score": 1.0,
+              "final_score": 0.7325
+            },
+            {
+              "candidate": "inventory_weekly.fld_ln_abbr_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 1.0,
+              "mpnet_score": 0.8742,
+              "final_score": 0.6997
+            },
+            {
+              "candidate": "inventory_weekly.curr_loc_num",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.8705,
+              "final_score": 0.3482
+            },
+            {
+              "candidate": "inventory_weekly.curr_dc_nm",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.8155,
+              "final_score": 0.3262
+            },
+            {
+              "candidate": "inventory_weekly.store_id",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.8064,
+              "final_score": 0.3225
+            },
+            {
+              "candidate": "inventory_weekly.curr_ownshp_typ_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 0.873,
+              "mpnet_score": 0.0,
+              "final_score": 0.3055
+            },
+            {
+              "candidate": "inventory_weekly.lvl_4_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 0.7631,
+              "mpnet_score": 0.0,
+              "final_score": 0.2671
+            },
+            {
+              "candidate": "inventory_weekly.lvl_2_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 0.7616,
+              "mpnet_score": 0.0,
+              "final_score": 0.2666
+            },
+            {
+              "candidate": "inventory_weekly.week_datetime",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.0,
+              "final_score": 0.0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "source_table": "tbl_prj_portfolio",
+      "best_match_table": "inventory_weekly",
+      "confidence": 0.6128,
+      "column_match_count": 4,
+      "column_matches": [
+        {
+          "source": "tbl_prj_portfolio.prj_sys_gen_id",
+          "best_match": "inventory_weekly.hq_ln_abbr_cd",
+          "confidence": 0.7301,
+          "match_source": "ensemble",
+          "candidates": [
+            {
+              "candidate": "inventory_weekly.hq_ln_abbr_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 1.0,
+              "mpnet_score": 0.9504,
+              "final_score": 0.7301
+            },
+            {
+              "candidate": "inventory_weekly.max_stk_lvl_qty",
+              "bm25_score": 0.0,
+              "minilm_score": 0.9338,
+              "mpnet_score": 0.9035,
+              "final_score": 0.6882
+            },
+            {
+              "candidate": "inventory_weekly.units",
+              "bm25_score": 1.0,
+              "minilm_score": 0.9265,
+              "mpnet_score": 0.0,
+              "final_score": 0.5743
+            },
+            {
+              "candidate": "inventory_weekly.store_id",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 1.0,
+              "final_score": 0.4
+            },
+            {
+              "candidate": "inventory_weekly.curr_ownshp_typ_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.9903,
+              "final_score": 0.3961
+            },
+            {
+              "candidate": "inventory_weekly.fld_ln_abbr_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.9691,
+              "final_score": 0.3877
+            },
+            {
+              "candidate": "inventory_weekly.min_stk_lvl_qty",
+              "bm25_score": 0.0,
+              "minilm_score": 0.9964,
+              "mpnet_score": 0.0,
+              "final_score": 0.3487
+            },
+            {
+              "candidate": "inventory_weekly.oos_impressions",
+              "bm25_score": 0.0,
+              "minilm_score": 0.9338,
+              "mpnet_score": 0.0,
+              "final_score": 0.3268
+            }
+          ]
+        },
+        {
+          "source": "tbl_prj_portfolio.prj_lbl_nm",
+          "best_match": "inventory_weekly.fld_ln_abbr_cd",
+          "confidence": 0.4,
+          "match_source": "ensemble",
+          "candidates": [
+            {
+              "candidate": "inventory_weekly.fld_ln_abbr_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 1.0,
+              "final_score": 0.4
+            },
+            {
+              "candidate": "inventory_weekly.hq_ln_abbr_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.988,
+              "final_score": 0.3952
+            },
+            {
+              "candidate": "inventory_weekly.curr_ownshp_typ_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.9527,
+              "final_score": 0.3811
+            },
+            {
+              "candidate": "inventory_weekly.curr_div_nm",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.9372,
+              "final_score": 0.3749
+            },
+            {
+              "candidate": "inventory_weekly.curr_loc_num",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.9193,
+              "final_score": 0.3677
+            },
+            {
+              "candidate": "inventory_weekly.lvl_1_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 1.0,
+              "mpnet_score": 0.0,
+              "final_score": 0.35
+            },
+            {
+              "candidate": "inventory_weekly.lvl_4_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 0.9967,
+              "mpnet_score": 0.0,
+              "final_score": 0.3488
+            },
+            {
+              "candidate": "inventory_weekly.lvl_2_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 0.9914,
+              "mpnet_score": 0.0,
+              "final_score": 0.347
+            },
+            {
+              "candidate": "inventory_weekly.lvl_3_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 0.9848,
+              "mpnet_score": 0.0,
+              "final_score": 0.3447
+            },
+            {
+              "candidate": "inventory_weekly.curr_dc_nm",
+              "bm25_score": 0.0,
+              "minilm_score": 0.9333,
+              "mpnet_score": 0.0,
+              "final_score": 0.3267
+            },
+            {
+              "candidate": "inventory_weekly.week_datetime",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.0,
+              "final_score": 0.0
+            }
+          ]
+        },
+        {
+          "source": "tbl_prj_portfolio.dt_prj_start",
+          "best_match": "inventory_weekly.lvl_3_hrchy_desc",
+          "confidence": 0.6709,
+          "match_source": "ensemble",
+          "candidates": [
+            {
+              "candidate": "inventory_weekly.lvl_3_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 0.9638,
+              "mpnet_score": 0.834,
+              "final_score": 0.6709
+            },
+            {
+              "candidate": "inventory_weekly.week_datetime",
+              "bm25_score": 1.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 1.0,
+              "final_score": 0.65
+            },
+            {
+              "candidate": "inventory_weekly.lvl_1_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 1.0,
+              "mpnet_score": 0.0,
+              "final_score": 0.35
+            },
+            {
+              "candidate": "inventory_weekly.curr_ownshp_typ_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.8746,
+              "final_score": 0.3498
+            },
+            {
+              "candidate": "inventory_weekly.lvl_2_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 0.973,
+              "mpnet_score": 0.0,
+              "final_score": 0.3406
+            },
+            {
+              "candidate": "inventory_weekly.lvl_4_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 0.9583,
+              "mpnet_score": 0.0,
+              "final_score": 0.3354
+            },
+            {
+              "candidate": "inventory_weekly.curr_div_nm",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.838,
+              "final_score": 0.3352
+            },
+            {
+              "candidate": "inventory_weekly.fld_ln_abbr_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.8283,
+              "final_score": 0.3313
+            },
+            {
+              "candidate": "inventory_weekly.curr_dc_nm",
+              "bm25_score": 0.0,
+              "minilm_score": 0.8739,
+              "mpnet_score": 0.0,
+              "final_score": 0.3059
+            }
+          ]
+        },
+        {
+          "source": "tbl_prj_portfolio.dt_prj_end",
+          "best_match": "inventory_weekly.week_datetime",
+          "confidence": 0.65,
+          "match_source": "ensemble",
+          "candidates": [
+            {
+              "candidate": "inventory_weekly.week_datetime",
+              "bm25_score": 1.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 1.0,
+              "final_score": 0.65
+            },
+            {
+              "candidate": "inventory_weekly.curr_ownshp_typ_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.8962,
+              "final_score": 0.3585
+            },
+            {
+              "candidate": "inventory_weekly.lvl_2_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 1.0,
+              "mpnet_score": 0.0,
+              "final_score": 0.35
+            },
+            {
+              "candidate": "inventory_weekly.curr_div_nm",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.868,
+              "final_score": 0.3472
+            },
+            {
+              "candidate": "inventory_weekly.lvl_1_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 0.9904,
+              "mpnet_score": 0.0,
+              "final_score": 0.3466
+            },
+            {
+              "candidate": "inventory_weekly.fld_ln_abbr_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.8642,
+              "final_score": 0.3457
+            },
+            {
+              "candidate": "inventory_weekly.lvl_4_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 0.9858,
+              "mpnet_score": 0.0,
+              "final_score": 0.345
+            },
+            {
+              "candidate": "inventory_weekly.hq_ln_abbr_cd",
+              "bm25_score": 0.0,
+              "minilm_score": 0.0,
+              "mpnet_score": 0.8591,
+              "final_score": 0.3436
+            },
+            {
+              "candidate": "inventory_weekly.lvl_3_hrchy_desc",
+              "bm25_score": 0.0,
+              "minilm_score": 0.9726,
+              "mpnet_score": 0.0,
+              "final_score": 0.3404
+            },
+            {
+              "candidate": "inventory_weekly.curr_dc_nm",
+              "bm25_score": 0.0,
+              "minilm_score": 0.8663,
+              "mpnet_score": 0.0,
+              "final_score": 0.3032
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

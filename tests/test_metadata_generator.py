@@ -16,7 +16,7 @@ def main():
     metadata = generate_schema_metadata(
         db_cfg=db_cfg,
         groq_cfg=GroqConfig(api_key=""),  
-        output_format="json"
+        output_format="xlxs"
     )
 
     print("done")
