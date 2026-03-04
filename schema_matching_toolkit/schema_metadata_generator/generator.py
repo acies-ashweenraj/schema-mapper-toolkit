@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import Dict, Any, Optional, List, Set
 from datetime import datetime, timezone
+import time
 
 from schema_matching_toolkit.common.db_config import DBConfig, GroqConfig
 from schema_matching_toolkit.schema_extractor import extract_schema
@@ -86,6 +87,7 @@ def _is_primary_key(
     data_type: Optional[str],
     pk_from_relationships: Set[str],
 ) -> bool:
+
     col_name = col_name.strip()
     col_id = f"{table_name}.{col_name}"
     lname = col_name.lower()
@@ -117,6 +119,41 @@ def _is_primary_key(
 
 
 # ---------------------------------------------------------
+# GROQ SAFE WRAPPER
+# ---------------------------------------------------------
+
+def _safe_describe_schema(schema, groq_cfg):
+    """
+    Safely call Groq.
+
+    If Groq returns invalid JSON:
+    - retry once
+    - fallback to empty descriptions
+    """
+
+    if not groq_cfg:
+        return None
+
+    for attempt in range(2):
+        try:
+            return describe_schema_with_groq(schema, groq_cfg)
+
+        except Exception as e:
+
+            print("\n⚠️ GROQ DESCRIPTION ERROR")
+            print(str(e))
+
+            if attempt == 0:
+                print("Retrying Groq request...\n")
+                time.sleep(1)
+                continue
+
+            print("⚠️ Skipping Groq descriptions due to invalid JSON\n")
+
+    return {"tables": [], "columns": []}
+
+
+# ---------------------------------------------------------
 # Main
 # ---------------------------------------------------------
 
@@ -129,7 +166,19 @@ def generate_schema_metadata(
     output_path: Optional[str] = None,
 ) -> Dict[str, Any]:
 
+    # -----------------------------------
+    # Extract schema
+    # -----------------------------------
+
     schema = extract_schema(db_cfg)
+
+    # Prevent huge Groq prompts
+    for t in schema.get("tables", []):
+        t["columns"] = t.get("columns", [])[:50]
+
+    # -----------------------------------
+    # Profiling
+    # -----------------------------------
 
     profiling = profile_schema(
         cfg=db_cfg,
@@ -138,13 +187,22 @@ def generate_schema_metadata(
         top_k=profile_top_k,
     )
 
+    # -----------------------------------
+    # Relationship detection
+    # -----------------------------------
+
     relationships = detect_relationships(db_cfg, schema)
     relationship_items = _build_relationship_items(relationships)
 
-    descriptions = (
-        describe_schema_with_groq(schema, groq_cfg)
-        if groq_cfg else None
-    )
+    # -----------------------------------
+    # Groq descriptions (SAFE)
+    # -----------------------------------
+
+    descriptions = _safe_describe_schema(schema, groq_cfg)
+
+    # -----------------------------------
+    # Maps
+    # -----------------------------------
 
     table_desc_map, col_desc_map = _build_description_maps(descriptions)
     profiling_map = _build_profiling_map(profiling)
@@ -162,12 +220,14 @@ def generate_schema_metadata(
         columns_out = []
 
         for c in t.get("columns", []):
+
             cname = c.get("column_name")
             if not cname:
                 continue
 
             cname = cname.strip()
             col_id = f"{tname}.{cname}"
+
             pcol = (tprof.get("columns") or {}).get(cname, {})
             rel = fk_map.get(col_id, {})
 
@@ -186,7 +246,6 @@ def generate_schema_metadata(
                     "kind": c.get("kind"),
                     "description": col_desc_map.get(col_id),
 
-                    # ✅ single source of truth
                     "is_primary_key": bool(is_pk),
                     "is_foreign_key": bool(rel.get("is_foreign_key", False)),
                     "ref_table": rel.get("ref_table"),
@@ -223,7 +282,9 @@ def generate_schema_metadata(
     }
 
     metadata["saved_file"] = save_metadata_output(
-        metadata, output_format, output_path
+        metadata,
+        output_format,
+        output_path,
     )
 
     return metadata
