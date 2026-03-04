@@ -92,19 +92,19 @@ def _is_primary_key(
     col_id = f"{table_name}.{col_name}"
     lname = col_name.lower()
 
-    # 1️⃣ Hard naming rule
+    # naming rule
     if lname.endswith("_pk"):
         return True
 
-    # 2️⃣ Referenced by FK
+    # referenced by FK
     if col_id in pk_from_relationships:
         return True
 
-    # 3️⃣ _id heuristic
+    # id heuristic
     if lname.endswith("_id") and not lname.endswith("_fk"):
         return True
 
-    # 4️⃣ Profiling uniqueness
+    # profiling uniqueness
     not_null = profiling.get("not_null_count", 0)
     distinct = profiling.get("distinct_count", 0)
 
@@ -119,38 +119,63 @@ def _is_primary_key(
 
 
 # ---------------------------------------------------------
-# GROQ SAFE WRAPPER
+# Schema chunking for Groq
+# ---------------------------------------------------------
+
+def _chunk_schema(schema, chunk_size=5):
+
+    tables = schema.get("tables", [])
+
+    for i in range(0, len(tables), chunk_size):
+        yield {
+            "tables": tables[i:i + chunk_size]
+        }
+
+
+# ---------------------------------------------------------
+# GROQ SAFE WRAPPER (CHUNKED)
 # ---------------------------------------------------------
 
 def _safe_describe_schema(schema, groq_cfg):
-    """
-    Safely call Groq.
-
-    If Groq returns invalid JSON:
-    - retry once
-    - fallback to empty descriptions
-    """
 
     if not groq_cfg:
         return None
 
-    for attempt in range(2):
-        try:
-            return describe_schema_with_groq(schema, groq_cfg)
+    final_tables = []
+    final_columns = []
 
-        except Exception as e:
+    for chunk in _chunk_schema(schema, chunk_size=5):
 
-            print("\n⚠️ GROQ DESCRIPTION ERROR")
-            print(str(e))
+        for attempt in range(2):
 
-            if attempt == 0:
-                print("Retrying Groq request...\n")
-                time.sleep(1)
-                continue
+            try:
 
-            print("⚠️ Skipping Groq descriptions due to invalid JSON\n")
+                result = describe_schema_with_groq(chunk, groq_cfg)
 
-    return {"tables": [], "columns": []}
+                if not result:
+                    break
+
+                final_tables.extend(result.get("tables", []))
+                final_columns.extend(result.get("columns", []))
+
+                break
+
+            except Exception as e:
+
+                print("\n⚠️ GROQ CHUNK FAILED")
+                print(str(e))
+
+                if attempt == 0:
+                    print("Retrying chunk...\n")
+                    time.sleep(1)
+                    continue
+
+                print("⚠️ Skipping this chunk\n")
+
+    return {
+        "tables": final_tables,
+        "columns": final_columns
+    }
 
 
 # ---------------------------------------------------------
@@ -172,10 +197,6 @@ def generate_schema_metadata(
 
     schema = extract_schema(db_cfg)
 
-    # Prevent huge Groq prompts
-    for t in schema.get("tables", []):
-        t["columns"] = t.get("columns", [])[:50]
-
     # -----------------------------------
     # Profiling
     # -----------------------------------
@@ -195,7 +216,7 @@ def generate_schema_metadata(
     relationship_items = _build_relationship_items(relationships)
 
     # -----------------------------------
-    # Groq descriptions (SAFE)
+    # Groq descriptions
     # -----------------------------------
 
     descriptions = _safe_describe_schema(schema, groq_cfg)
@@ -212,6 +233,7 @@ def generate_schema_metadata(
     tables_out = []
 
     for t in schema.get("tables", []):
+
         tname = t.get("table_name")
         if not tname:
             continue
