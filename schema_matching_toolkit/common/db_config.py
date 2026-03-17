@@ -12,6 +12,11 @@ class DBConfig:
     password: Optional[str] = None
     schema_name: Optional[str] = None
     sqlite_path: Optional[str] = None
+    connection_string: Optional[str] = None
+
+    def sqlalchemy_url(self) -> str:
+        if self.connection_string:
+            return self.connection_string
 
     def sqlalchemy_url(self) -> str:
         t = (self.db_type or "").lower().strip()
