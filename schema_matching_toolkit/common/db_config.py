@@ -1,7 +1,5 @@
 from dataclasses import dataclass
 from typing import Optional
-
-
 @dataclass
 class DBConfig:
     db_type: str
@@ -15,10 +13,10 @@ class DBConfig:
     connection_string: Optional[str] = None
 
     def sqlalchemy_url(self) -> str:
-        if self.connection_string:
-            return self.connection_string
+        # FIRST: use connection string if provided
+        if self.connection_string is not None and self.connection_string.strip():
+            return self.connection_string.strip()
 
-    def sqlalchemy_url(self) -> str:
         t = (self.db_type or "").lower().strip()
 
         if t in ["postgres", "postgresql"]:
